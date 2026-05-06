@@ -108,7 +108,11 @@ def render_page(vod: dict) -> str:
     )
 
     head = T.head_block(
-        title=f"{name}の評判・料金・作品数まとめ【{trial_days}日無料体験】 | {SITE_NAME}",
+        title=(
+            f"{name}の評判・料金・作品数まとめ【{trial_days}日無料体験】 | {SITE_NAME}"
+            if trial_days else
+            f"{name}の評判・料金・作品数まとめ | {SITE_NAME}"
+        ),
         description=(
             f"{name}を実契約レビュー。月額{vod['monthly_fee']}・"
             f"{vod['content_count']}・{vod.get('tagline','')}など"
