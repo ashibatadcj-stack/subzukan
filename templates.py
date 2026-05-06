@@ -5,14 +5,21 @@
 """
 from __future__ import annotations
 import json
+import os
 from html import escape
+from pathlib import Path
+
+from dotenv import load_dotenv
 
 from content_data import EDITOR
 
+# ルート .env を読み込む（GA_ID / GSC_VERIFICATION を環境変数で上書き可能に）
+load_dotenv(Path(__file__).parent / ".env")
 
 SITE_NAME = "サブスク図鑑"
-SITE_URL = "https://subzukan.com"  # generate_seo_files.py と整合させる
-GA_ID = "G-XXXXXXXXXX"  # TODO: 新サイト用GA4測定IDに差し替え
+SITE_URL = os.environ.get("SITE_URL", "https://subzukan.com").rstrip("/")
+GA_ID = os.environ.get("GA_ID", "")  # 未設定なら gtag タグを出力しない
+GSC_VERIFICATION = os.environ.get("GSC_VERIFICATION", "")  # Search Console所有権確認
 SUBSCRIPT = "編集部レビューに基づく独立比較"
 
 
@@ -24,12 +31,29 @@ def head_block(*, title: str, description: str, keywords: str = "",
                extra_css: str = "") -> str:
     """ <head>...</head> を返す。canonical_path は "/services/u-next.html" のように先頭スラ付き。"""
     canonical_url = f'{SITE_URL}{canonical_path}' if canonical_path else SITE_URL
+
+    # GA_ID が設定されていれば gtag タグを生成
+    ga_block = ""
+    if GA_ID:
+        ga_block = (
+            f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>\n'
+            f"  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}"
+            f"gtag('js',new Date());gtag('config','{GA_ID}');</script>"
+        )
+
+    # Search Console 所有権確認のメタタグ
+    gsc_meta = (
+        f'<meta name="google-site-verification" content="{escape(GSC_VERIFICATION)}">'
+        if GSC_VERIFICATION else ""
+    )
+
     return f"""<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{escape(title)}</title>
   <meta name="description" content="{escape(description)}">
   {f'<meta name="keywords" content="{escape(keywords)}">' if keywords else ''}
+  {gsc_meta}
   <link rel="canonical" href="{canonical_url}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="{escape(title)}">
@@ -37,8 +61,7 @@ def head_block(*, title: str, description: str, keywords: str = "",
   <meta property="og:url" content="{canonical_url}">
   <meta property="og:site_name" content="{SITE_NAME}">
   <meta name="twitter:card" content="summary_large_image">
-  <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA_ID}');</script>
+  {ga_block}
   <link rel="stylesheet" href="{extra_css}">
   {json_ld}
 </head>"""
