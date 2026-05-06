@@ -196,7 +196,7 @@ VODS = [
         "name": "ABEMAプレミアム",
         "icon": "📡",
         "tagline": "オリジナル番組とアニメ最新話に強いライト型",
-        "affiliate_url": "",  # TODO: A8 ABEMA 提携URL
+        "affiliate_url": "https://px.a8.net/svt/ejp?a8mat=4B3K2P+15OD4I+4EKC+5YJRM",  # A8 ABEMA（提携中）
         "official_url": "https://abema.tv/",
         "monthly_fee": "1,080円（税込）",
         "free_trial_days": 14,
