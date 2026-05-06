@@ -67,6 +67,12 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://subzukan.com/services/sukapa.html</loc>
+    <lastmod>2026-05-06</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://subzukan.com/articles/vod-beginner-guide.html</loc>
     <lastmod>2026-05-06</lastmod>
     <priority>0.8</priority>
