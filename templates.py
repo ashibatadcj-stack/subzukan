@@ -80,6 +80,15 @@ def site_header(*, css_prefix: str = "") -> str:
 </header>"""
 
 
+def pr_disclosure(*, css_prefix: str = "") -> str:
+    """ファーストビュー用のPR表記バッジ（景表法ステマ規制対応・必須）。
+    全ページのヘッダー直下またはヒーロー直下に配置する。"""
+    return f"""<div class="pr-disclosure" role="region" aria-label="広告表記">
+  <span class="pr-badge">PR</span>
+  <span class="pr-text">本ページはアフィリエイト広告を含みます。編集部の独自審査に基づき選定しています。<a href="{css_prefix}about.html">編集方針</a></span>
+</div>"""
+
+
 def site_footer(*, css_prefix: str = "") -> str:
     return f"""<footer class="site-footer">
   <div class="site-footer-inner">
@@ -87,10 +96,11 @@ def site_footer(*, css_prefix: str = "") -> str:
     <p class="site-footer-tag">{SUBSCRIPT}</p>
     <ul class="site-footer-links">
       <li><a href="{css_prefix}index.html">トップ</a></li>
-      <li><a href="{css_prefix}index.html#about">当サイトについて</a></li>
-      <li><a href="{css_prefix}index.html#editor">編集ポリシー</a></li>
+      <li><a href="{css_prefix}about.html">当サイトについて</a></li>
+      <li><a href="{css_prefix}about.html#editorial-policy">編集方針</a></li>
+      <li><a href="{css_prefix}about.html#disclosure">広告表記</a></li>
     </ul>
-    <p class="site-footer-disclaimer">※本サイトはアフィリエイト広告を含みます。掲載情報は2025年時点の代表値で、最新の料金・作品数は各公式サイトをご確認ください。</p>
+    <p class="site-footer-disclaimer">※本サイトはアフィリエイト広告を含みます。掲載情報は最新月の代表値で、料金・作品数の確定値は各公式サイトをご確認ください。</p>
   </div>
 </footer>
 <script src="{css_prefix}assets/common.js"></script>"""
@@ -357,6 +367,23 @@ def json_ld_article(*, title: str, description: str, url: str,
         "dateModified": updated_at,
         "author": {"@type": "Organization", "name": author},
         "publisher": {"@type": "Organization", "name": SITE_NAME, "url": SITE_URL},
+    }
+
+
+def json_ld_person(editor: dict) -> dict:
+    """編集者プロフィールをschema.org Person形式で出力（E-E-A-T訴求用）"""
+    return {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": editor["name"],
+        "jobTitle": editor.get("jobTitle", "編集"),
+        "description": editor.get("bio", ""),
+        "knowsAbout": editor.get("knowsAbout", []),
+        "worksFor": {
+            "@type": "Organization",
+            "name": SITE_NAME,
+            "url": SITE_URL,
+        },
     }
 
 

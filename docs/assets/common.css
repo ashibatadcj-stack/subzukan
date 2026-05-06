@@ -69,6 +69,42 @@ img { max-width: 100%; height: auto; }
 .site-nav a:hover { color: var(--c-accent-d); }
 @media (max-width: 600px) { .site-nav { display: none; } }
 
+/* ===== PR表記バッジ（ステマ規制対応・ファーストビュー必須） ===== */
+.pr-disclosure {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fffbeb;
+  border-bottom: 1px solid #fde68a;
+  padding: 8px 22px;
+  font-size: 0.78rem;
+  color: #78350f;
+  flex-wrap: wrap;
+}
+.pr-badge {
+  background: #f59e0b;
+  color: white;
+  font-weight: bold;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+.pr-text {
+  flex: 1;
+  line-height: 1.5;
+}
+.pr-text a {
+  color: #b45309;
+  text-decoration: underline;
+  margin-left: 4px;
+}
+.pr-text a:hover { color: #92400e; }
+@media (max-width: 600px) {
+  .pr-disclosure { padding: 8px 16px; font-size: 0.72rem; }
+}
+
 /* ===== Hero（クリーン・ホワイト：薄ラベンダー背景＋ダーク文字） ===== */
 .hero {
   background:

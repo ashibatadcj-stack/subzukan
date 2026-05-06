@@ -352,7 +352,7 @@ def build_banner_section(banners: list[dict]) -> str:
             items.append(f'''
 <div class="a8-banner-item">
   <div class="a8-banner-label">{label}</div>
-  <a href="{aff_url}" class="apply-btn" rel="nofollow noopener" target="_blank">
+  <a href="{aff_url}" class="apply-btn" rel="sponsored noopener" target="_blank">
     ▶ {label}の詳細・申し込みはこちら
   </a>
 </div>''')

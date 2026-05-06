@@ -74,7 +74,7 @@ def _cta_html(vod: dict, position: str = "main") -> str:
         return (
             f'<a href="{vod["affiliate_url"]}" '
             f'class="apply-btn apply-btn-{position}" '
-            f'rel="nofollow noopener" target="_blank">'
+            f'rel="sponsored noopener" target="_blank">'
             f'▶ {escape(vod["name"])}を無料体験する</a>'
         )
     return (
@@ -109,9 +109,9 @@ def render_page(vod: dict) -> str:
 
     head = T.head_block(
         title=(
-            f"{name}の評判・料金・作品数まとめ【{trial_days}日無料体験】 | {SITE_NAME}"
+            f"【2026年最新】{name}の評判・料金・作品数まとめ｜{trial_days}日無料体験 | {SITE_NAME}"
             if trial_days else
-            f"{name}の評判・料金・作品数まとめ | {SITE_NAME}"
+            f"【2026年最新】{name}の評判・料金・作品数まとめ | {SITE_NAME}"
         ),
         description=(
             f"{name}を実契約レビュー。月額{vod['monthly_fee']}・"
@@ -260,6 +260,7 @@ def render_page(vod: dict) -> str:
     body = f"""
 <body>
 {T.site_header(css_prefix='../')}
+{T.pr_disclosure(css_prefix='../')}
 <main class="container">
   {breadcrumb_html}
   {hero_html}

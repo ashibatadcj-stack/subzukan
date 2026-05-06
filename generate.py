@@ -74,7 +74,7 @@ def render_index() -> str:
     )
 
     head = T.head_block(
-        title=f"{T.SITE_NAME} | 国内VOD10社を実契約レビューで比較する図鑑",
+        title=f"【2026年最新】{T.SITE_NAME} | 国内VOD11社を実契約レビューで比較する図鑑",
         description="国内主要サブスク（VOD・動画配信サービス）を実契約レビュー＋比較表で紹介する図鑑型メディア。3問の診断クイズで最適な1本が見つかります。",
         keywords="サブスク,VOD,動画配信,比較,診断,おすすめ,U-NEXT,Hulu,DAZN,dアニメストア,Lemino,ABEMA",
         canonical_path=canonical_path,
@@ -106,6 +106,7 @@ def render_index() -> str:
 
     body = f"""<body>
 {T.site_header()}
+{T.pr_disclosure()}
 {sections[0]}
 <main class="container container-wide">
   {''.join(sections[1:])}
@@ -601,7 +602,11 @@ def render_article(article: dict) -> str:
     )
 
     head = T.head_block(
-        title=f'{article["title"]} | {T.SITE_NAME}',
+        title=(
+            f'{article["title"]} | {T.SITE_NAME}'
+            if "2026" in article["title"]
+            else f'【2026年最新】{article["title"]} | {T.SITE_NAME}'
+        ),
         description=article["description"],
         keywords=article.get("keyword", ""),
         canonical_path=canonical_path,
@@ -632,6 +637,7 @@ def render_article(article: dict) -> str:
 
     body = f"""<body>
 {T.site_header(css_prefix='../')}
+{T.pr_disclosure(css_prefix='../')}
 <main class="container">
   {breadcrumb_html}
   <article class="article-content">
@@ -845,6 +851,152 @@ def _generate_section_body(article: dict, h2: str, idx: int) -> str:
 
 
 # ====================================================================
+# About / 運営者情報ページ
+# ====================================================================
+def render_about() -> str:
+    canonical_path = "/about.html"
+    page_url = T.SITE_URL + canonical_path
+
+    person_lds = [T.json_ld_person(e) for e in EDITORS_DETAIL]
+    json_ld = T.render_json_ld(
+        T.json_ld_breadcrumb([
+            ("トップ", T.SITE_URL + "/"),
+            ("当サイトについて", page_url),
+        ]),
+        {
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            "name": f"{T.SITE_NAME}について",
+            "url": page_url,
+            "description": "サブスク図鑑の運営方針・編集ポリシー・編集メンバー・広告表記",
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": T.SITE_NAME,
+            "url": T.SITE_URL,
+            "description": "国内主要サブスクを実契約レビューで紹介する図鑑型メディア",
+            "sameAs": [],
+        },
+        *person_lds,
+    )
+
+    head = T.head_block(
+        title=f"当サイトについて | {T.SITE_NAME}",
+        description="サブスク図鑑の運営方針・編集ポリシー・広告表記・編集メンバーの紹介。実契約レビューと独立した編集を約束します。",
+        canonical_path=canonical_path,
+        json_ld=json_ld,
+        extra_css="assets/common.css",
+    )
+
+    breadcrumb_html = T.breadcrumb([
+        ("トップ", "index.html"),
+        ("当サイトについて", ""),
+    ])
+
+    # 編集メンバー
+    members_html = ""
+    for e in EDITORS_DETAIL:
+        subs = "".join(
+            f'<span class="editor-sub-pill">{escape(s)}</span>' for s in e["subscribed"]
+        )
+        members_html += f"""<article class="editor-card">
+      <span class="editor-card-icon">{e['icon']}</span>
+      <h3>{escape(e['name'])}</h3>
+      <p class="editor-card-role">{escape(e['role'])}</p>
+      <p class="editor-card-bio">{escape(e['bio'])}</p>
+      <p class="editor-card-subs-label">契約中:</p>
+      <div class="editor-card-subs">{subs}</div>
+    </article>"""
+
+    body = f"""<body>
+{T.site_header()}
+{T.pr_disclosure()}
+<main class="container">
+  {breadcrumb_html}
+  <article class="article-content about-page">
+    <span class="article-cat">サイト情報</span>
+    <h1>📘 サブスク図鑑について</h1>
+    <p class="lead">サブスク図鑑は、国内主要VOD・サブスクを「実契約してレビューする」図鑑型メディアです。料金・作品数・無料体験を独立した立場で比較し、編集部の体験に基づく一次情報を提供します。</p>
+
+    <section id="mission">
+      <h2>🎯 ミッション</h2>
+      <p>サブスクサービスは年々増加し、料金・特典・作品ラインナップは月単位で変動します。サブスク図鑑は、利用者が「自分に合った1社を最短で見つけられる」ことを目的に、編集部が全社を実際に契約・視聴して比較レビューを公開します。</p>
+    </section>
+
+    <section id="editorial-policy">
+      <h2>✍ 編集方針</h2>
+      <ul class="principles-list">
+        <li>全サービスを実際に有料契約してレビューします</li>
+        <li>料金・作品数の数値は最新月にチェックし更新します</li>
+        <li>解約したくなる弱点・後悔ポイントも隠さず掲載します</li>
+        <li>「ベスト」評価は編集部の評価軸（コスパ・作品数・独占度・UI・サポート）の合算で判定します</li>
+        <li>掲載順位はアフィリエイト報酬の単価では決定しません</li>
+      </ul>
+    </section>
+
+    <section id="disclosure">
+      <h2>📋 広告表記・景表法対応</h2>
+      <p>本サイトは <strong>アフィリエイト広告</strong> を含みます（景品表示法第5条第3号告示「ステルスマーケティング規制」に基づく明示）。</p>
+      <ul class="check-list">
+        <li>記事内で紹介する各VODサービスへのリンクは、提携先からの紹介料が発生する場合があります</li>
+        <li>紹介料の有無は記事の評価・順位に影響しません</li>
+        <li>アフィリエイトリンクには <code>rel="sponsored"</code> 属性を付与し、Googleのリンク品質ガイドラインに準拠しています</li>
+        <li>各ページのファーストビュー（最上部）にPR表記を常時表示しています</li>
+      </ul>
+    </section>
+
+    <section id="editor">
+      <h2>👥 編集メンバー</h2>
+      <p>VOD領域に専門知識を持つ3名で、毎月の最新情報を更新しています。</p>
+      <div class="editors-grid">
+        {members_html}
+      </div>
+    </section>
+
+    <section id="review-method">
+      <h2>🔬 レビュー方法</h2>
+      <p>編集部のレビュープロセス：</p>
+      <ol>
+        <li><strong>実契約</strong>：全サービスを編集部の個人カードで有料契約</li>
+        <li><strong>多端末で実視聴</strong>：スマホ・PC・テレビ（Fire TV）で視聴体験をチェック</li>
+        <li><strong>5軸評価</strong>：コスパ／作品数／独占度／UI／サポートの5軸で1.0〜5.0で採点</li>
+        <li><strong>長期モニタ</strong>：契約後も継続契約し、料金改定・新作配信・UI変更を月次でモニタリング</li>
+        <li><strong>編集会議</strong>：月1回、3名の編集者で評価を持ち寄り合議</li>
+      </ol>
+    </section>
+
+    <section id="update-policy">
+      <h2>🔄 更新ポリシー</h2>
+      <ul>
+        <li><strong>月次</strong>：料金・作品数・キャンペーン情報を更新</li>
+        <li><strong>都度</strong>：新規サービス追加・終了・大型機能変更があれば即時更新</li>
+        <li><strong>年次</strong>：ランキング軸の見直し</li>
+      </ul>
+      <p>各記事の上部には「公開日」「更新日」を表示しています。</p>
+    </section>
+
+    <section id="contact">
+      <h2>✉️ お問い合わせ</h2>
+      <p>取材・記事監修・記載内容の訂正依頼などのお問い合わせは、現在準備中です。準備が整い次第、本ページに連絡先を記載します。</p>
+      <p>（編集部の運営状況により、回答までお時間をいただく場合があります）</p>
+    </section>
+
+    <section class="cta-banner" id="quiz-cta">
+      <p class="cta-banner-title">🎯 まずは3問の診断クイズから</p>
+      <p class="cta-banner-desc">あなたに合うサブスクが10サービスから見つかります。</p>
+      <a href="index.html#quiz" class="cta-banner-btn">無料で診断を始める</a>
+    </section>
+
+    {T.editor_box()}
+  </article>
+</main>
+{T.site_footer()}
+</body>"""
+    return f"<!DOCTYPE html>\n<html lang=\"ja\">\n{head}\n{body}\n</html>"
+
+
+# ====================================================================
 # エントリーポイント
 # ====================================================================
 def main():
@@ -854,6 +1006,11 @@ def main():
     print("--- index.html ---")
     out = DOCS_DIR / "index.html"
     out.write_text(render_index(), encoding="utf-8")
+    print(f"作成: {out.relative_to(BASE_DIR)}")
+
+    print("--- about.html ---")
+    out = DOCS_DIR / "about.html"
+    out.write_text(render_about(), encoding="utf-8")
     print(f"作成: {out.relative_to(BASE_DIR)}")
 
     print("--- 記事 ---")
