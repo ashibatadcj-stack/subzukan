@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# 環境変数・認証情報
+.env
+analytics/.env
+analytics/credentials/*.json
+.a8_session.json
+.a8_banners_cache.json
+
+# キャッシュ
+analytics/.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# ログ
+*.log
+
+# A8運用ファイル（コミット禁止）
+joined_programs.json
+processed_programs.json
+a8_vod_candidates.json
+
+# デバッグ用スクリーンショット・ファイル
+debug_*.png
+debug_*.py
+
+# analytics 出力
+analytics/output/*.md
+analytics/output/*.json
+!analytics/output/.gitkeep
