@@ -73,6 +73,24 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://subzukan.com/services/audiobookjp.html</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://subzukan.com/services/fujisan.html</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://subzukan.com/services/soelu.html</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://subzukan.com/articles/vod-complete-guide-2026.html</loc>
     <lastmod>2026-05-07</lastmod>
     <priority>0.8</priority>
@@ -164,6 +182,24 @@
   </url>
   <url>
     <loc>https://subzukan.com/articles/danime-review.html</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://subzukan.com/articles/audiobook-comparison-2026.html</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://subzukan.com/articles/magazine-readall-2026.html</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://subzukan.com/articles/online-yoga-fitness-2026.html</loc>
     <lastmod>2026-05-07</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>

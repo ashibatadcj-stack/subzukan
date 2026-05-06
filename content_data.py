@@ -135,6 +135,11 @@ TAG_CLOUD = {
         {"label": "月1,500円以下", "slug": "under-1500", "vod_id": "abema"},
         {"label": "予算自由", "slug": "free", "vod_id": "u-next"},
     ],
+    "拡張サブスク": [
+        {"label": "オーディオブック", "slug": "audiobook", "vod_id": "audiobookjp"},
+        {"label": "雑誌・専門誌", "slug": "magazine", "vod_id": "fujisan"},
+        {"label": "オンラインヨガ", "slug": "yoga", "vod_id": "soelu"},
+    ],
 }
 
 
@@ -446,6 +451,30 @@ USE_CASES = [
         "primary": "danime",
         "alt": ["dmm-tv", "telasa"],
         "reason": "月額550円で本格的に楽しめる専門特化型。",
+    },
+    {
+        "id": "audiobook",
+        "icon": "🎧",
+        "title": "通勤中に学びたい・本を聴きたい",
+        "primary": "audiobookjp",
+        "alt": [],
+        "reason": "聴き放題1.5万作品・月1,330円。ビジネス書のラインナップが業界最強。",
+    },
+    {
+        "id": "magazine",
+        "icon": "📰",
+        "title": "雑誌・専門誌をお得に読みたい",
+        "primary": "fujisan",
+        "alt": ["u-next"],
+        "reason": "13,000誌から定期購読・最大70%割引。業界紙・専門誌に強い。",
+    },
+    {
+        "id": "yoga",
+        "icon": "🧘",
+        "title": "自宅でヨガ・フィットネスを始めたい",
+        "primary": "soelu",
+        "alt": [],
+        "reason": "1日100本のライブレッスン・30日無料体験。ジムより5万円/年お得。",
     },
 ]
 

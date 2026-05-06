@@ -1,0 +1,102 @@
+[
+  {
+    "tier": "★★★",
+    "id": "s00000015623001",
+    "name": "audiobook.jp",
+    "category": "オーディオブック",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  },
+  {
+    "tier": "★★★",
+    "id": "s00000005174001",
+    "name": "Fujisan.co.jp",
+    "category": "雑誌読み放題",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  },
+  {
+    "tier": "★★★",
+    "id": "s00000022237001",
+    "name": "Amebaマンガ",
+    "category": "漫画読み放題",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  },
+  {
+    "tier": "★★",
+    "id": "s00000026109001",
+    "name": "GLOBIS 学び放題",
+    "category": "学習サブスク",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  },
+  {
+    "tier": "★★",
+    "id": "s00000026707001",
+    "name": "DMM英会話",
+    "category": "オンライン英会話",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  },
+  {
+    "tier": "★★",
+    "id": "s00000018953001",
+    "name": "キャンブリー",
+    "category": "ネイティブ英会話",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  },
+  {
+    "tier": "★★",
+    "id": "s00000026697001",
+    "name": "スピーク",
+    "category": "AI英会話",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  },
+  {
+    "tier": "★★",
+    "id": "s00000015388002",
+    "name": "スタディサプリENGLISH（TOEIC対策）",
+    "category": "TOEIC学習",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  },
+  {
+    "tier": "★★",
+    "id": "s00000020569001",
+    "name": "SOELU",
+    "category": "オンラインヨガ",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  },
+  {
+    "tier": "★★",
+    "id": "s00000024602001",
+    "name": "chocoZAP",
+    "category": "ジムサブスク",
+    "status": "OK_申請完了",
+    "site": "subzukan(002)",
+    "applied_at": "2026-05-07T04:03:39.448385",
+    "confirm_message": "提携を申請しました（即時提携プログラム審査の場合あり）"
+  }
+]
