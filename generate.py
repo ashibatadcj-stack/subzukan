@@ -821,6 +821,12 @@ def render_article(article: dict) -> str:
         T.json_ld_faq(article.get("faqs", [])) if article.get("faqs") else None,
     )
 
+    # OGP画像（記事個別画像 or カテゴリ別デフォルト）
+    og_image = article.get("image_url") or DEFAULT_IMAGES.get(article.get("category_slug", ""), "")
+    # 1200x630 サイズ用にUnsplash URLを変換
+    if og_image and "images.unsplash.com" in og_image:
+        og_image = og_image.replace("w=600", "w=1200&h=630&fit=crop")
+
     head = T.head_block(
         title=(
             f'{article["title"]} | {T.SITE_NAME}'
@@ -832,6 +838,7 @@ def render_article(article: dict) -> str:
         canonical_path=canonical_path,
         json_ld=json_ld,
         extra_css="../assets/common.css",
+        og_image=og_image,
     )
 
     breadcrumb_html = T.breadcrumb([

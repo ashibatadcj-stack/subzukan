@@ -122,6 +122,9 @@ def render_page(vod: dict) -> str:
         T.json_ld_howto_cancel(vod, page_url),
     )
 
+    # サービス詳細ページ用OGP画像（service-detailカテゴリの共通Unsplash画像）
+    og_image = "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=1200&h=630&fit=crop&q=70&fm=webp&auto=format"
+
     head = T.head_block(
         title=(
             f"【2026年最新】{name}の評判・料金・作品数まとめ｜{trial_days}日無料体験 | {SITE_NAME}"
@@ -137,6 +140,7 @@ def render_page(vod: dict) -> str:
         canonical_path=canonical_path,
         json_ld=json_ld,
         extra_css="../assets/common.css",
+        og_image=og_image,
     )
 
     breadcrumb_html = T.breadcrumb([

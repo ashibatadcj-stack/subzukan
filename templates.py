@@ -28,9 +28,14 @@ SUBSCRIPT = "編集部レビューに基づく独立比較"
 # --------------------------------------------------------------------
 def head_block(*, title: str, description: str, keywords: str = "",
                canonical_path: str = "", json_ld: str = "",
-               extra_css: str = "") -> str:
-    """ <head>...</head> を返す。canonical_path は "/services/u-next.html" のように先頭スラ付き。"""
+               extra_css: str = "", og_image: str = "") -> str:
+    """ <head>...</head> を返す。canonical_path は "/services/u-next.html" のように先頭スラ付き。
+    og_image: SNSシェア時のサムネイル画像URL（記事ヘッダー画像 or デフォルト）"""
     canonical_url = f'{SITE_URL}{canonical_path}' if canonical_path else SITE_URL
+
+    # OGP画像（指定がなければサイト共通のデフォルト画像）
+    if not og_image:
+        og_image = f"{SITE_URL}/assets/og-default.png"
 
     # GA_ID が設定されていれば gtag タグを生成
     ga_block = ""
@@ -60,7 +65,11 @@ def head_block(*, title: str, description: str, keywords: str = "",
   <meta property="og:description" content="{escape(description)}">
   <meta property="og:url" content="{canonical_url}">
   <meta property="og:site_name" content="{SITE_NAME}">
+  <meta property="og:image" content="{og_image}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{og_image}">
   {ga_block}
   <link rel="stylesheet" href="{extra_css}">
   {json_ld}

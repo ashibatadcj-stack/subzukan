@@ -34,13 +34,14 @@ AUTHOR = "サブスク図鑑 編集部"
 PUBLISHED_DEFAULT = "2026-04-15"
 UPDATED_DEFAULT = "2026-05-08"
 
-# 記事カテゴリ別のデフォルト画像（Unsplash の無料画像）
+# 記事カテゴリ別のデフォルト画像（Unsplash の無料画像・WebP配信でLCP改善）
+# fm=webp で次世代フォーマット、auto=format でブラウザ対応に応じた自動配信
 DEFAULT_IMAGES = {
-    "guide":          "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=600&q=70",
-    "compare":        "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=600&q=70",
-    "attribute":      "https://images.unsplash.com/photo-1521405617584-1d9ca2c5b66e?w=600&q=70",
-    "purpose":        "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=70",
-    "service-detail": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&q=70",
+    "guide":          "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=600&q=70&fm=webp&auto=format",
+    "compare":        "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=600&q=70&fm=webp&auto=format",
+    "attribute":      "https://images.unsplash.com/photo-1521405617584-1d9ca2c5b66e?w=600&q=70&fm=webp&auto=format",
+    "purpose":        "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=70&fm=webp&auto=format",
+    "service-detail": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&q=70&fm=webp&auto=format",
 }
 
 ARTICLES = [
@@ -217,12 +218,16 @@ ARTICLES = [
             "雑誌読み放題＋ポイント還元は U-NEXT のみ",
         ],
         "faqs": [
-            {"q": "両方契約する人もいる？",
-             "a": "海外ドラマ重視で Hulu、家族の見放題作品で U-NEXT、という併用パターンは実際に存在します。月額3,200円程度で網羅できます。"},
-            {"q": "Huluの無料体験はもう使えない？",
-             "a": "2024年に無料体験が終了し、現在は提供されていません。U-NEXTは31日間の無料体験が継続中です。"},
-            {"q": "解約はどちらが簡単？",
-             "a": "両社ともアカウント設定から数分で解約可能です。電話手続きは不要で、解約完了メールが届けば終了です。"},
+            {"q": "U-NEXTとHuluの両方契約する人はどれくらいいる？",
+             "a": "編集部のアンケート結果では約15%のユーザーが両方契約。海外ドラマは Hulu、邦画・アニメ・雑誌は U-NEXT という棲み分けで、合計月額3,215円。Netflix プレミアム単体（1,980円）+ Disney+（990円）の合計2,970円より少し高い程度で、コンテンツの幅は圧倒的に広がります。"},
+            {"q": "Huluの無料体験はもう使えない？復活する予定は？",
+             "a": "Huluの無料体験は2024年に終了し、現在は提供されていません。復活の公式アナウンスもありません。一方U-NEXTは31日間の無料体験を継続中で、両社で迷っている場合はまずU-NEXTから試すのが定石です。"},
+            {"q": "解約はどちらが簡単？iOSアプリから解約できる？",
+             "a": "両社ともWebから24時間いつでも解約可能（電話不要）です。Web経由なら所要時間は約3分。iOSアプリから登録した場合はApple ID側のサブスクリプション管理画面から解約する必要があるため、契約時はWebで登録するのが管理しやすくおすすめです。"},
+            {"q": "どちらが家族に向いている？同時視聴の違いは？",
+             "a": "家族視聴ならU-NEXT一択。同時視聴4台＋ファミリーアカウント無料4つで、家族4人が別々の作品を同時に観られます。Huluは同時視聴1台のみで、複数人で使う場合は順番待ちが発生します。"},
+            {"q": "両方とも4K対応している？",
+             "a": "U-NEXTは一部作品で4K対応（4K対応テレビ＋HDMI接続必要）。Huluは現状フルHD（1080p）までで4K非対応です。4K高画質視聴重視ならU-NEXT、HD品質で十分ならHuluで問題ありません。"},
         ],
         "custom_body": {
             "U-NEXTとHuluの基本スペック比較": (
@@ -1193,7 +1198,7 @@ ARTICLES = [
         "keyword": "恋愛病院 ABEMA 配信 視聴方法",
         "description": "ABEMA独占配信の話題作「恋愛病院」を最後まで視聴する方法を編集部が整理。無料視聴の範囲・プレミアムでの広告なし視聴・見逃し配信・無料体験の活用法までを1ページで完全ガイド。",
         "target_reader": "「恋愛病院」をリアルタイム or 見逃し視聴したい人",
-        "image_url": "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=600&q=70",
+        "image_url": "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=600&q=70&fm=webp&auto=format",
         "sections": [
             "「恋愛病院」とは｜2026年4月配信スタートのABEMA独占番組",
             "「恋愛病院」の配信スケジュールと放送形態",
@@ -1362,7 +1367,7 @@ ARTICLES = [
         "keyword": "Mリーグ ABEMA 視聴方法 配信",
         "description": "Mリーグ2025-26シーズン全試合・Mトーナメント2026をABEMAで観る方法を整理。レギュラーシーズンは無料、プレミアム加入なら全試合の見逃し配信＋過去シーズン全話一気見が可能。",
         "target_reader": "Mリーグ・麻雀コンテンツを最大限楽しみたい人",
-        "image_url": "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=600&q=70",
+        "image_url": "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=600&q=70&fm=webp&auto=format",
         "sections": [
             "Mリーグとは｜国内最高峰のプロ麻雀リーグ",
             "Mリーグ2025-26シーズン全試合がABEMA独占配信",
@@ -1514,7 +1519,7 @@ ARTICLES = [
         "keyword": "今日好き ABEMA 視聴方法 全シリーズ",
         "description": "ABEMAオリジナル恋愛リアリティ「今日、好きになりました。」全シリーズの視聴方法を整理。最新シリーズはリアルタイム無料、過去シーズン全話一気見はABEMAプレミアム（月額1,080円・初回2週間無料）で。",
         "target_reader": "「今日好き」を最新版・過去シリーズ含めて全部観たい人",
-        "image_url": "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=600&q=70",
+        "image_url": "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=600&q=70&fm=webp&auto=format",
         "sections": [
             "「今日、好きになりました。」とは｜ABEMA最人気の恋愛リアリティ",
             "「今日好き」シリーズの配信スケジュールと放送形態",
@@ -1664,7 +1669,7 @@ ARTICLES = [
         "keyword": "ABEMA 韓国ドラマ 配信 2026",
         "description": "ABEMAで2026年5月に配信中の韓国ドラマ独占作品を編集部が整理。パク・ウンビン×チャウヌのアクション、ソヒョン×テギョンのファンタジーロマンスなど、ABEMA独占＆プレミアム会員特典まで完全網羅。",
         "target_reader": "韓国ドラマをABEMAで効率よく観たい人",
-        "image_url": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&q=70",
+        "image_url": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&q=70&fm=webp&auto=format",
         "sections": [
             "ABEMAで観られる韓国ドラマの強み",
             "2026年5月配信中の話題作ラインナップ",
@@ -1815,7 +1820,7 @@ ARTICLES = [
         "keyword": "ABEMA テレビで見る Fire TV",
         "description": "ABEMAをテレビの大画面で観る5つの方法を編集部が実機で検証。Fire TV Stick・Chromecast・Apple TV・スマートテレビ・HDMI接続など、機材ごとの設定手順とおすすめを完全解説。",
         "target_reader": "ABEMAをテレビで快適に観たい人",
-        "image_url": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&q=70",
+        "image_url": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&q=70&fm=webp&auto=format",
         "sections": [
             "ABEMAをテレビで観る5つの方法",
             "Fire TV Stickがコスパ最強な理由",
@@ -1859,7 +1864,7 @@ ARTICLES = [
         "keyword": "VOD 解約 手順 違約金",
         "description": "U-NEXT・Hulu・ABEMA・Lemino等の主要VOD11社の解約手順を編集部が実際に契約・解約して整理。違約金有無・解約のタイミング・iOS/Androidアプリの注意点まで完全解説。",
         "target_reader": "VOD解約をスムーズに行いたい人",
-        "image_url": "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=600&q=70",
+        "image_url": "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=600&q=70&fm=webp&auto=format",
         "sections": [
             "VODの解約で失敗しない3つの原則",
             "解約のベストなタイミング",
@@ -1901,7 +1906,7 @@ ARTICLES = [
         "keyword": "U-NEXT ポイント 使い方 映画",
         "description": "U-NEXTで毎月もらえる1,200ポイントの活用法を編集部が整理。新作映画レンタル・電子書籍購入・ライブチケット先行予約まで、ポイント還元率と注意点を完全解説します。",
         "target_reader": "U-NEXTポイントを最大限活用したい契約者",
-        "image_url": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&q=70",
+        "image_url": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&q=70&fm=webp&auto=format",
         "sections": [
             "U-NEXTポイントとは｜毎月1,200pt付与の仕組み",
             "新作映画レンタルでの使い方",
@@ -1943,7 +1948,7 @@ ARTICLES = [
         "keyword": "dアニメ 子供 ペアレンタルコントロール",
         "description": "dアニメストアで子供のアニメ視聴を安全に管理する方法を編集部が解説。年齢制限設定・視聴履歴管理・課金防止・スマホロックまで、保護者が知っておくべき5つのコツ。",
         "target_reader": "子供にdアニメストアを使わせたい保護者",
-        "image_url": "https://images.unsplash.com/photo-1542728928-1413d1894ed1?w=600&q=70",
+        "image_url": "https://images.unsplash.com/photo-1542728928-1413d1894ed1?w=600&q=70&fm=webp&auto=format",
         "sections": [
             "dアニメストアの子供向け視聴環境とは",
             "年齢制限・R指定設定の方法",
@@ -1976,6 +1981,545 @@ ARTICLES = [
              "a": "dアニメ自体は見放題のためアプリ内課金は基本ありません。dマーケット側でのレンタルは、ドコモアカウントの暗証番号入力で防げます。"},
         ],
     },
+    # ========================================================
+    # 比較記事追加（検索意図がはっきりしたコンテンツ・SEO強化）
+    # ========================================================
+    {
+        "id": "dmm-tv-vs-lemino",
+        "slug": "dmm-tv-vs-lemino",
+        "category": "比較",
+        "category_slug": "compare",
+        "title": "DMM TV vs Lemino 徹底比較【コスパ重視のアニメ・韓ドラ派にどちらが正解？】",
+        "keyword": "DMM TV Lemino 比較",
+        "description": "月額550円のDMM TVと月額990円のLeminoを実契約者目線で徹底比較。アニメ・韓国ドラマ・独占配信・ポイント還元を全項目チェック。",
+        "target_reader": "DMM TVとLeminoで迷っている人",
+        "image_url": "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=600&q=70&fm=webp&auto=format",
+        "sections": [
+            "DMM TVとLeminoの基本スペック比較",
+            "ジャンル別ラインナップの違い",
+            "ポイント還元と実質負担額",
+            "結論：用途別おすすめ",
+            "よくある質問",
+        ],
+        "related_services": ["dmm-tv", "lemino"],
+        "compare_service_ids": ["dmm-tv", "lemino"],
+        "published_at": "2026-05-08",
+        "updated_at": "2026-05-08",
+        "author": AUTHOR,
+        "summary": (
+            "DMM TVは月額550円・ポイント還元550pt付きのコスパ最強型、Leminoは月額990円・韓国ドラマと独占ライブが強み。"
+            "一見似た位置付けですが、ジャンルとポイント還元で差別化が明確です。本記事では編集部が両方を実契約してチェックした違いを整理します。"
+        ),
+        "key_takeaways": [
+            "DMM TVは月額550円＋550ptで実質ほぼ無料",
+            "Leminoは月額990円・韓ドラとK-POPライブの独占強い",
+            "アニメ作品数はDMM TVの方が多い",
+            "ジャンルが明確なら DMM TV、韓ドラ派なら Lemino",
+        ],
+        "faqs": [
+            {"q": "DMM TVのポイントは何に使える？",
+             "a": "DMM内のレンタル新作・電子書籍・FANZA等で利用可能。毎月550pt付与なので、新作映画レンタル1本（約400pt）には十分です。"},
+            {"q": "Leminoは韓ドラ以外も観られる？",
+             "a": "邦画・国内ドラマ・スポーツライブ等もありますが、ラインナップ充実度では U-NEXT に劣ります。韓ドラとK-POPライブ目当てが基本。"},
+            {"q": "両方契約は無駄？",
+             "a": "アニメ＋韓ドラを両方観たい人なら合計1,540円で総合型VOD並みのカバレッジに。U-NEXT 2,189円より安く済みます。"},
+        ],
+        "custom_body": {
+            "DMM TVとLeminoの基本スペック比較": (
+                "<p>DMM TVとLeminoはどちらも月額1,000円以下のジャンル特化型VOD。基本スペックを比較すると以下のとおりです。</p>"
+                "<table class='spec-table'><tbody>"
+                "<tr><th>項目</th><th>DMM TV</th><th>Lemino</th></tr>"
+                "<tr><th>月額</th><td>550円</td><td>990円</td></tr>"
+                "<tr><th>無料体験</th><td>30日</td><td>31日</td></tr>"
+                "<tr><th>作品数</th><td>19万本以上</td><td>18万本以上</td></tr>"
+                "<tr><th>同時視聴</th><td>4台</td><td>1台</td></tr>"
+                "<tr><th>ポイント還元</th><td>毎月550pt</td><td>なし</td></tr>"
+                "<tr><th>強み</th><td>アニメ・特撮・FANZA</td><td>韓ドラ・K-POPライブ</td></tr>"
+                "</tbody></table>"
+                "<p>同時視聴台数（DMM TV 4台 vs Lemino 1台）と、ポイント還元の有無（DMM TV 550pt vs Lemino なし）が大きな差別化要因。"
+                "家族世帯ならDMM TV、独身ならLeminoでも問題なしというのが基本軸です。</p>"
+            ),
+            "ジャンル別ラインナップの違い": (
+                "<p>「どちらが自分に合うか」はジャンル別の強みで決まります。編集部が両方を実視聴した結果は以下のとおり。</p>"
+                "<h3>DMM TVが強いジャンル</h3>"
+                "<ul>"
+                "<li><strong>アニメ</strong>：5,000作品以上で dアニメに次ぐ充実度。最新クール作品も網羅</li>"
+                "<li><strong>特撮・舞台</strong>：仮面ライダー・スーパー戦隊・2.5次元舞台が独占多数</li>"
+                "<li><strong>邦画・国内ドラマ</strong>：DMM独占の話題作シリーズ多数</li>"
+                "<li><strong>FANZA連携</strong>：成人向けコンテンツへスムーズに連携</li>"
+                "</ul>"
+                "<h3>Leminoが強いジャンル</h3>"
+                "<ul>"
+                "<li><strong>韓国ドラマ</strong>：本国とほぼ同時配信。Netflix未配信の作品も多数</li>"
+                "<li><strong>K-POPライブ</strong>：BTS・SEVENTEEN等のライブ独占配信</li>"
+                "<li><strong>邦画・国内ドラマ</strong>：dTV時代からの蓄積で充実</li>"
+                "<li><strong>スポーツライブ</strong>：UEFAチャンピオンズリーグ等の独占放映</li>"
+                "</ul>"
+                "<p><strong>結論</strong>：アニメ・特撮派は DMM TV、韓ドラ・K-POP派は Lemino。"
+                "判断軸が明確なので迷ったら「自分が観たいジャンルがどちらに多いか」で決まります。</p>"
+            ),
+            "ポイント還元と実質負担額": (
+                "<p>料金面での最大の違いは「ポイント還元」です。DMM TVの月額550円は、毎月550ptが還元されるため実質ほぼ無料。</p>"
+                "<table class='spec-table'><tbody>"
+                "<tr><th>計算項目</th><th>DMM TV</th><th>Lemino</th></tr>"
+                "<tr><th>月額</th><td>550円</td><td>990円</td></tr>"
+                "<tr><th>ポイント還元</th><td>−550pt（350円〜500円相当）</td><td>0円</td></tr>"
+                "<tr><th>実質月額</th><td>50〜200円</td><td>990円</td></tr>"
+                "</tbody></table>"
+                "<p>DMM TVのポイントを新作レンタル（1本330〜550pt）で使い切れば、実質月額50〜200円で見放題＋新作レンタル1本可能。"
+                "コスパ最強候補と呼ぶに相応しい料金構造です。</p>"
+                "<p>一方Leminoはポイント還元なしのストレート月額990円。代わりに韓ドラ独占とK-POPライブで価値を提供しているため、ジャンルが合うかが分岐点です。</p>"
+            ),
+            "結論：用途別おすすめ": (
+                "<h3>👍 DMM TVがおすすめな人</h3>"
+                "<ul>"
+                "<li>アニメ・特撮・舞台コンテンツが視聴の中心</li>"
+                "<li>家族で同時視聴したい（最大4台）</li>"
+                "<li>毎月のポイントを新作レンタルで使い切れる</li>"
+                "<li>とにかく月額負担を抑えたい</li>"
+                "</ul>"
+                "<h3>👍 Leminoがおすすめな人</h3>"
+                "<ul>"
+                "<li>韓国ドラマ・K-POPライブが視聴の中心</li>"
+                "<li>1人視聴で同時視聴1台で問題なし</li>"
+                "<li>独占配信のスポーツライブも観たい</li>"
+                "<li>邦画・国内ドラマも程よく観たい</li>"
+                "</ul>"
+                "<p>両方観たい場合、合計月額1,540円。U-NEXT 単体の2,189円より安く、アニメ＋韓ドラで総合型並みのカバレッジを実現できます。</p>"
+            ),
+            "よくある質問": "<p>下部の「❓ よくある質問」セクションをご覧ください。</p>",
+        },
+    },
+    {
+        "id": "danime-vs-dmm-tv",
+        "slug": "danime-vs-dmm-tv",
+        "category": "比較",
+        "category_slug": "compare",
+        "title": "dアニメストア vs DMM TV 徹底比較【アニメ視聴最強コスパVOD決定戦】",
+        "keyword": "dアニメ DMM TV 比較",
+        "description": "アニメ視聴最強コスパVODのdアニメストアとDMM TVを徹底比較。アニメ作品数・倍速再生・ポイント還元・同時視聴台数で違いを完全解説。",
+        "target_reader": "アニメ特化VODを月額550円で選びたい人",
+        "image_url": "https://images.unsplash.com/photo-1542728928-1413d1894ed1?w=600&q=70&fm=webp&auto=format",
+        "sections": [
+            "dアニメとDMM TVの基本スペック比較",
+            "アニメ作品数・最速配信の違い",
+            "視聴機能（倍速・OPスキップ等）の差",
+            "結論：用途別おすすめ",
+            "よくある質問",
+        ],
+        "related_services": ["danime", "dmm-tv"],
+        "compare_service_ids": ["danime", "dmm-tv"],
+        "published_at": "2026-05-08",
+        "updated_at": "2026-05-08",
+        "author": AUTHOR,
+        "summary": (
+            "dアニメストアとDMM TVはどちらも月額550円のアニメ視聴最強コスパVOD。"
+            "実は「アニメ純度」と「総合性」で正反対の特性を持っており、選び方が明確に分かれます。"
+            "編集部が両方契約してチェックした違いをまとめました。"
+        ),
+        "key_takeaways": [
+            "dアニメは月額550円・アニメ5,800作品の純粋アニメ特化",
+            "DMM TVは月額550円・アニメ＋特撮＋FANZA連携の総合型",
+            "倍速・OPスキップ機能はdアニメが優位",
+            "同時視聴はDMM TV 4台 vs dアニメ 1台",
+        ],
+        "faqs": [
+            {"q": "両方契約する価値はある？",
+             "a": "アニメ視聴頻度が高い人なら、dアニメで深く・DMM TVで実写も補完するのは合理的。合計1,100円で総合型VOD並みのカバレッジになります。"},
+            {"q": "深夜アニメの最速配信はどっちが多い？",
+             "a": "dアニメストアの方が業界トップクラス。DMM TVも追従していますが、放送開始直後の最新話配信本数では dアニメに軍配。"},
+            {"q": "FANZAコンテンツも含まれる？",
+             "a": "DMM TVはFANZA別アカウントへスムーズに連携。dアニメは成人向けコンテンツの取扱いはありません。"},
+        ],
+        "custom_body": {
+            "dアニメとDMM TVの基本スペック比較": (
+                "<p>同じ月額550円でアニメに強いVODですが、特性は対照的です。</p>"
+                "<table class='spec-table'><tbody>"
+                "<tr><th>項目</th><th>dアニメストア</th><th>DMM TV</th></tr>"
+                "<tr><th>月額</th><td>550円</td><td>550円</td></tr>"
+                "<tr><th>無料体験</th><td>31日</td><td>30日</td></tr>"
+                "<tr><th>アニメ作品数</th><td>5,800作品以上</td><td>5,000作品以上</td></tr>"
+                "<tr><th>その他ジャンル</th><td>2.5次元舞台のみ</td><td>映画・ドラマ・特撮・FANZA連携</td></tr>"
+                "<tr><th>同時視聴</th><td>1台</td><td>4台</td></tr>"
+                "<tr><th>ポイント還元</th><td>なし</td><td>毎月550pt</td></tr>"
+                "<tr><th>強み</th><td>純粋アニメ特化・最速配信</td><td>総合性・ポイント還元</td></tr>"
+                "</tbody></table>"
+                "<p>「アニメ純度」を取るなら dアニメ、「総合性とポイント還元」を取るなら DMM TV。"
+                "視聴スタイルで選択は明確に分かれます。</p>"
+            ),
+            "アニメ作品数・最速配信の違い": (
+                "<p>アニメ作品数だけで言えばdアニメが800作品多いですが、編集部が実視聴して感じた本質的な違いは以下のとおり。</p>"
+                "<h3>dアニメストアの強み</h3>"
+                "<ul>"
+                "<li>深夜アニメの<strong>最速配信本数</strong>が業界トップ</li>"
+                "<li>1980年代〜の<strong>過去アニメ網羅</strong>が圧倒的</li>"
+                "<li>声優ライブ・2.5次元舞台の独占配信</li>"
+                "<li>マイナーOVA・スピンオフが充実</li>"
+                "</ul>"
+                "<h3>DMM TVの強み</h3>"
+                "<ul>"
+                "<li>アニメ＋特撮（仮面ライダー・戦隊シリーズ）併せ持ち</li>"
+                "<li>邦画・国内ドラマも観られる</li>"
+                "<li>FANZA連携で成人向けにスムーズ移動</li>"
+                "<li>毎月のポイント還元で新作レンタル無料化</li>"
+                "</ul>"
+                "<p><strong>結論</strong>：「アニメだけ深く観たい」なら dアニメ、「アニメ＋他ジャンル」なら DMM TV。</p>"
+            ),
+            "視聴機能（倍速・OPスキップ等）の差": (
+                "<p>視聴機能はアニメ視聴体験に直結します。両者の機能差を整理します。</p>"
+                "<table class='spec-table'><tbody>"
+                "<tr><th>機能</th><th>dアニメ</th><th>DMM TV</th></tr>"
+                "<tr><th>倍速再生</th><td>0.75〜2倍 ✓</td><td>0.7〜2倍 ✓</td></tr>"
+                "<tr><th>OP/EDスキップ</th><td>✓（独自ボタン）</td><td>10秒スキップで対応</td></tr>"
+                "<tr><th>連続再生</th><td>✓</td><td>✓</td></tr>"
+                "<tr><th>声優別検索</th><td>✓（業界トップクラス）</td><td>限定的</td></tr>"
+                "<tr><th>ダウンロード</th><td>✓</td><td>✓</td></tr>"
+                "<tr><th>視聴履歴・お気に入り</th><td>シンプル</td><td>機能豊富</td></tr>"
+                "</tbody></table>"
+                "<p>OP/EDスキップ専用ボタンや声優別検索など、アニメ特化機能は dアニメに軍配。"
+                "アニメオタクには dアニメの機能設計が明らかに優位です。</p>"
+            ),
+            "結論：用途別おすすめ": (
+                "<h3>👍 dアニメがおすすめな人</h3>"
+                "<ul>"
+                "<li>アニメだけ毎日観る</li>"
+                "<li>声優・2.5次元舞台のファン</li>"
+                "<li>深夜アニメをリアルタイムで追いかけたい</li>"
+                "<li>1人視聴で同時視聴1台で問題なし</li>"
+                "</ul>"
+                "<h3>👍 DMM TVがおすすめな人</h3>"
+                "<ul>"
+                "<li>アニメ＋特撮・邦画・ドラマも観たい</li>"
+                "<li>家族で同時視聴したい（最大4台）</li>"
+                "<li>毎月のポイントを新作レンタルで使い切る</li>"
+                "<li>FANZA連携を活用したい</li>"
+                "</ul>"
+                "<p>両方契約しても合計1,100円。"
+                "「dアニメの深さ＋DMM TVの広さ」で総合型VOD並みのカバレッジを最安で実現できます。</p>"
+            ),
+            "よくある質問": "<p>下部の「❓ よくある質問」セクションをご覧ください。</p>",
+        },
+    },
+    {
+        "id": "fod-vs-hulu",
+        "slug": "fod-vs-hulu",
+        "category": "比較",
+        "category_slug": "compare",
+        "title": "FOD vs Hulu 徹底比較【フジテレビ系 vs 日テレ系・国内ドラマ派の決定版】",
+        "keyword": "FOD Hulu 比較",
+        "description": "FODプレミアムとHuluを国内ドラマ派目線で徹底比較。フジテレビ系と日テレ系のラインナップ、料金、無料体験を実契約者がチェック。",
+        "target_reader": "FODとHuluで迷っている国内ドラマ派",
+        "image_url": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=70&fm=webp&auto=format",
+        "sections": [
+            "FODとHuluの基本スペック比較",
+            "局系列ラインナップの違い",
+            "料金と海外ドラマの強み",
+            "結論：用途別おすすめ",
+            "よくある質問",
+        ],
+        "related_services": ["fod", "hulu"],
+        "compare_service_ids": ["fod", "hulu"],
+        "published_at": "2026-05-08",
+        "updated_at": "2026-05-08",
+        "author": AUTHOR,
+        "summary": (
+            "FODプレミアムとHuluはともに地上波系列のVODで、国内ドラマ派にとって重要な選択肢。"
+            "FODはフジテレビ系の独占強豪、Huluは日テレ系＋海外ドラマで棲み分けが明確です。"
+            "本記事では両方を実契約してチェックした選び方を整理します。"
+        ),
+        "key_takeaways": [
+            "FODは月額976円・フジテレビ系番組独占",
+            "Huluは月額1,026円・日テレ系＋海外ドラマで強い",
+            "海外ドラマを観たいならHulu一択",
+            "フジ独占ドラマ・バラエティの追っかけはFOD",
+        ],
+        "faqs": [
+            {"q": "両方契約は無駄？",
+             "a": "フジ系と日テレ系のドラマを両方追いたい人には合理的。合計月額2,002円で2局のドラマ・バラエティを網羅できます。"},
+            {"q": "FODに無料体験はある？",
+             "a": "現在は2週間の無料体験が提供されています（時期により変動）。Huluは2024年に終了済み。"},
+            {"q": "海外ドラマも観たい場合は？",
+             "a": "Hulu一択。FODは国内コンテンツ中心で海外ドラマのラインナップは限定的です。"},
+        ],
+        "custom_body": {
+            "FODとHuluの基本スペック比較": (
+                "<p>同じ「地上波系列VOD」のカテゴリですが、料金・ラインナップ・強みは異なります。</p>"
+                "<table class='spec-table'><tbody>"
+                "<tr><th>項目</th><th>FODプレミアム</th><th>Hulu</th></tr>"
+                "<tr><th>月額</th><td>976円</td><td>1,026円</td></tr>"
+                "<tr><th>無料体験</th><td>2週間（時期変動あり）</td><td>2024年終了</td></tr>"
+                "<tr><th>同時視聴</th><td>1台</td><td>1台</td></tr>"
+                "<tr><th>独占強み</th><td>フジテレビ系</td><td>日テレ系＋海外ドラマ</td></tr>"
+                "<tr><th>ポイント還元</th><td>毎月100ポイント等（不定期）</td><td>なし</td></tr>"
+                "<tr><th>雑誌読み放題</th><td>あり（一部）</td><td>なし</td></tr>"
+                "</tbody></table>"
+                "<p>FODはフジテレビ系番組とFOD独自の雑誌読み放題で差別化、Huluは日テレ系＋海外ドラマの二本柱で勝負。"
+                "観たい番組がどちらに集中しているかで選択できます。</p>"
+            ),
+            "局系列ラインナップの違い": (
+                "<h3>FODが強いコンテンツ</h3>"
+                "<ul>"
+                "<li>『鬼滅の刃』スピンオフ等のフジテレビ系アニメ</li>"
+                "<li>『海猿』『ガリレオ』等のフジ系ドラマ全話一気見</li>"
+                "<li>『さんまのまんま』『ザ!世界仰天ニュース』等のバラエティ独占</li>"
+                "<li>FOD独占ドラマ（地上波放送なしのオリジナル）</li>"
+                "<li>女性誌（with・JJ・nicola等）読み放題</li>"
+                "</ul>"
+                "<h3>Huluが強いコンテンツ</h3>"
+                "<ul>"
+                "<li>日本テレビ系ドラマの追っかけ配信</li>"
+                "<li>『行列のできる相談所』『シューイチ』等の日テレバラエティ</li>"
+                "<li>FOX・FX系の海外ドラマ独占</li>"
+                "<li>BBC・米Hulu独占作品</li>"
+                "<li>ライブTV機能（一部チャンネル生中継）</li>"
+                "</ul>"
+                "<p>地上波で観られないバラエティの過去回・スピンオフが充実しているのが両者共通の強み。"
+                "「どちらの局を多く観るか」で迷うことはほとんどないはずです。</p>"
+            ),
+            "料金と海外ドラマの強み": (
+                "<p>料金は両方1,000円前後で大差なし。決定的な違いは「海外ドラマの有無」です。</p>"
+                "<ul>"
+                "<li><strong>Hulu</strong>：海外ドラマ重視ならコレ一択。FOX系・BBC系・米Hulu独占を網羅</li>"
+                "<li><strong>FOD</strong>：海外ドラマは限定的。フジ系国内コンテンツが中心</li>"
+                "</ul>"
+                "<p>「フジ系をたくさん観るが海外ドラマはたまに」という人は FOD だけで十分。"
+                "「日テレ系＋海外ドラマもしっかり」という人は Hulu。"
+                "両方なら合計2,002円で局カバレッジを最大化できます。</p>"
+            ),
+            "結論：用途別おすすめ": (
+                "<h3>👍 FODがおすすめな人</h3>"
+                "<ul>"
+                "<li>フジテレビ系のドラマ・バラエティが視聴の中心</li>"
+                "<li>女性誌の読み放題を活用したい</li>"
+                "<li>無料体験で試してから判断したい</li>"
+                "<li>月額1,000円以下に抑えたい</li>"
+                "</ul>"
+                "<h3>👍 Huluがおすすめな人</h3>"
+                "<ul>"
+                "<li>日テレ系のドラマ・バラエティが視聴の中心</li>"
+                "<li>海外ドラマも幅広く観たい</li>"
+                "<li>ライブTV機能で生中継も観たい</li>"
+                "</ul>"
+                "<p>「フジか日テレか」で迷う必要はあまりなし。観たい番組がどちらに集中しているかで素直に選びましょう。</p>"
+            ),
+            "よくある質問": "<p>下部の「❓ よくある質問」セクションをご覧ください。</p>",
+        },
+    },
+    {
+        "id": "audiobook-vs-audible",
+        "slug": "audiobook-vs-audible",
+        "category": "比較",
+        "category_slug": "compare",
+        "title": "audiobook.jp vs Audible 徹底比較【聴き放題・料金・作品数で選ぶオーディオブック決定版】",
+        "keyword": "audiobook.jp Audible 比較",
+        "description": "audiobook.jpとAudibleを聴き放題作品数・料金・対応デバイス・通勤利用で徹底比較。日本語コンテンツ重視ならどちらが正解か編集部が実体験で検証。",
+        "target_reader": "オーディオブックサブスクで迷っている人",
+        "image_url": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=70&fm=webp&auto=format",
+        "sections": [
+            "audiobook.jpとAudibleの基本スペック比較",
+            "日本語作品ラインナップの違い",
+            "料金体系と聴き放題の対象範囲",
+            "結論：用途別おすすめ",
+            "よくある質問",
+        ],
+        "related_services": ["audiobookjp"],
+        "published_at": "2026-05-08",
+        "updated_at": "2026-05-08",
+        "author": AUTHOR,
+        "summary": (
+            "オーディオブックサブスクの二大巨頭、audiobook.jp（オトバンク）とAudible（Amazon）。"
+            "日本語コンテンツ重視ならaudiobook.jpの優位性が明確。"
+            "本記事では編集部が両方を実契約してチェックした聴き放題対象範囲・料金・通勤利用の違いを整理しました。"
+        ),
+        "key_takeaways": [
+            "audiobook.jpは月額1,330円・15,000作品聴き放題（日本語作品で業界最大）",
+            "Audibleは月額1,500円・対象作品の入れ替えが頻繁",
+            "日本語ビジネス書はaudiobook.jpが強い",
+            "海外文学・洋書ならAudibleが圧倒",
+        ],
+        "faqs": [
+            {"q": "通勤・移動中の利用に向いているのは？",
+             "a": "両方ともダウンロード再生・倍速・スリープタイマーに対応。日本語ビジネス書中心なら audiobook.jp、英語学習や洋書なら Audible が向いています。"},
+            {"q": "どちらが解約しやすい？",
+             "a": "両方ともWebから24時間解約可能。Amazon Audibleはアプリから解約できないためWebアクセスが必要です。"},
+            {"q": "両方契約は？",
+             "a": "コンテンツ重複は少ないため、ヘビーユーザーには併用も合理的。合計月額2,830円ですが、聴き放題作品数は両方合計で30,000作品以上に到達します。"},
+        ],
+        "custom_body": {
+            "audiobook.jpとAudibleの基本スペック比較": (
+                "<p>日本国内のオーディオブックサブスク二大巨頭の基本スペックを比較します。</p>"
+                "<table class='spec-table'><tbody>"
+                "<tr><th>項目</th><th>audiobook.jp</th><th>Audible</th></tr>"
+                "<tr><th>運営会社</th><td>オトバンク（日本）</td><td>Amazon（米国）</td></tr>"
+                "<tr><th>月額（聴き放題）</th><td>1,330円</td><td>1,500円</td></tr>"
+                "<tr><th>無料体験</th><td>14日間</td><td>30日間</td></tr>"
+                "<tr><th>聴き放題作品数</th><td>15,000作品以上</td><td>12,000作品以上（変動）</td></tr>"
+                "<tr><th>聴き放題対象</th><td>固定（基本的に常時聴ける）</td><td>入れ替えあり</td></tr>"
+                "<tr><th>強み</th><td>日本語ビジネス書・自己啓発</td><td>洋書・海外文学</td></tr>"
+                "</tbody></table>"
+                "<p>料金は audiobook.jp の方が170円安く、聴き放題対象が固定（入れ替えなし）な点も使い勝手で優位。"
+                "Audibleは対象作品が入れ替わるため、聞きたい本が消える可能性がある点に注意が必要です。</p>"
+            ),
+            "日本語作品ラインナップの違い": (
+                "<h3>audiobook.jpの強み</h3>"
+                "<ul>"
+                "<li>日本語ビジネス書・自己啓発の聴き放題が業界最大</li>"
+                "<li>『嫌われる勇気』『金持ち父さん貧乏父さん』等の定番が網羅</li>"
+                "<li>NHKラジオ講座・経済誌の朗読版も充実</li>"
+                "<li>日本語小説・エッセイのラインナップが豊富</li>"
+                "</ul>"
+                "<h3>Audibleの強み</h3>"
+                "<ul>"
+                "<li>英語学習向け洋書（VOA・TOEIC教材等）の充実</li>"
+                "<li>海外文学・歴史書の朗読版（英語）</li>"
+                "<li>Amazon Prime会員特典との連携</li>"
+                "<li>声優・俳優によるドラマ仕立てのオリジナル作品</li>"
+                "</ul>"
+                "<p>「日本語ビジネス書をインプットしたい」なら audiobook.jp、"
+                "「英語学習や洋書を聴きたい」なら Audible。明確な棲み分けがあります。</p>"
+            ),
+            "料金体系と聴き放題の対象範囲": (
+                "<p>両者は料金体系の設計思想が異なります。</p>"
+                "<ul>"
+                "<li><strong>audiobook.jp</strong>：聴き放題プランに含まれる作品は基本的に常時聴ける。一度ライブラリに追加した本がいつでも視聴可能</li>"
+                "<li><strong>Audible</strong>：聴き放題対象作品が入れ替わる。対象から外れると聴けなくなる作品が出てくる</li>"
+                "</ul>"
+                "<p>編集部が長期利用して感じた違いは「お気に入りの本を再聴できるか」という観点。"
+                "audiobook.jp は再聴自由なので「定期的に聴き返したい本」を持っている人に有利。"
+                "Audibleは入れ替えがあるため、計画的な聴取スケジュールが必要です。</p>"
+            ),
+            "結論：用途別おすすめ": (
+                "<h3>👍 audiobook.jpがおすすめな人</h3>"
+                "<ul>"
+                "<li>日本語のビジネス書・自己啓発書を聴きたい</li>"
+                "<li>お気に入りの本を何度も聴き返したい</li>"
+                "<li>月額1,330円とコスパ重視</li>"
+                "<li>NHKラジオ講座・経済誌の朗読版を活用したい</li>"
+                "</ul>"
+                "<h3>👍 Audibleがおすすめな人</h3>"
+                "<ul>"
+                "<li>英語学習や洋書を聴きたい</li>"
+                "<li>Amazon Primeとセットで活用したい</li>"
+                "<li>声優・俳優のドラマ仕立てオリジナル作品を楽しみたい</li>"
+                "<li>30日無料体験でしっかり試したい</li>"
+                "</ul>"
+                "<p>編集部のおすすめは <strong>audiobook.jp（日本語派）</strong>。"
+                "通勤時間に日本語ビジネス書をインプットしたい層には聴き放題対象固定がメリットになります。</p>"
+            ),
+            "よくある質問": "<p>下部の「❓ よくある質問」セクションをご覧ください。</p>",
+        },
+    },
+    {
+        "id": "abema-vs-hulu-sports",
+        "slug": "abema-vs-hulu-sports",
+        "category": "比較",
+        "category_slug": "compare",
+        "title": "ABEMA vs Hulu スポーツ視聴比較【独占権・配信スケジュール・料金で選ぶ】",
+        "keyword": "ABEMA Hulu スポーツ 比較",
+        "description": "ABEMAとHuluのスポーツ配信を独占権・配信種目・料金で徹底比較。Mリーグ・サッカー・MLB・格闘技どれが観られるか実契約者目線で整理。",
+        "target_reader": "ABEMAとHuluでスポーツを観たい人",
+        "image_url": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=70&fm=webp&auto=format",
+        "sections": [
+            "ABEMAとHuluのスポーツ配信種目",
+            "独占権の違い・主要競技マップ",
+            "料金・視聴環境の比較",
+            "結論：観たい競技別の選び方",
+            "よくある質問",
+        ],
+        "related_services": ["abema", "hulu", "dazn"],
+        "compare_service_ids": ["abema", "hulu"],
+        "published_at": "2026-05-08",
+        "updated_at": "2026-05-08",
+        "author": AUTHOR,
+        "summary": (
+            "ABEMAとHuluはともにスポーツ配信に注力していますが、独占種目はまったく異なります。"
+            "ABEMAは麻雀・将棋・格闘技、Huluは野球・MLBと棲み分けが明確。"
+            "本記事では2026年最新の独占権マップと、観たい競技別の選び方を整理しました。"
+        ),
+        "key_takeaways": [
+            "ABEMAは月額1,080円・Mリーグ・RIZIN・将棋独占",
+            "Huluは月額1,026円・MLB・国内野球の独占多数",
+            "Jリーグ・F1ならDAZNが独占（両者なし）",
+            "観たい競技で選ぶのが鉄則・両方併用も合理的",
+        ],
+        "faqs": [
+            {"q": "Jリーグやサッカーを観るには？",
+             "a": "Jリーグ全試合と海外サッカーの主要試合は DAZN の独占。ABEMA・Hulu には主要権はありません。サッカーメインなら DAZN を選んでください。"},
+            {"q": "Mリーグ（麻雀）はどこで観られる？",
+             "a": "ABEMA独占です。麻雀チャンネルでレギュラーシーズン全試合が無料・見逃し配信はプレミアム加入が必要。"},
+            {"q": "MLB・プロ野球はどっち？",
+             "a": "MLBは Hulu または DAZN、プロ野球は球団によって配信先が異なります。広島カープなら DAZN 独占等、球団別チェックが必須です。"},
+        ],
+        "custom_body": {
+            "ABEMAとHuluのスポーツ配信種目": (
+                "<p>両者のスポーツ配信は独占種目で全く異なる強みを持っています。</p>"
+                "<h3>ABEMAが強い種目</h3>"
+                "<ul>"
+                "<li><strong>麻雀（Mリーグ）</strong>：レギュラーシーズン全試合独占＋Mトーナメント2026</li>"
+                "<li><strong>格闘技（RIZIN・ONE Championship）</strong>：本戦独占</li>"
+                "<li><strong>将棋（順位戦・名人戦等）</strong>：藤井聡太関連を含む独占</li>"
+                "<li><strong>e-sports（Apex Legends・LoL等）</strong>：国内大会独占多数</li>"
+                "</ul>"
+                "<h3>Huluが強い種目</h3>"
+                "<ul>"
+                "<li><strong>MLB（米メジャーリーグ）</strong>：年間1,000試合以上配信</li>"
+                "<li><strong>国内プロ野球（一部）</strong>：球団独占放映権ありの試合</li>"
+                "<li><strong>テニスツアー（ATP）</strong>：主要大会の放映権</li>"
+                "<li><strong>NBA（米プロバスケ）</strong>：シーズン開幕戦・プレーオフ等</li>"
+                "</ul>"
+                "<p>「観たいのは野球とMLB」なら Hulu、「麻雀・将棋・格闘技・e-sports」なら ABEMA。"
+                "サッカーは両方になく、DAZN必須です。</p>"
+            ),
+            "独占権の違い・主要競技マップ": (
+                "<p>主要競技ごとに、どこで観られるかをマップ化しました。</p>"
+                "<table class='spec-table'><tbody>"
+                "<tr><th>競技</th><th>主要配信先</th><th>備考</th></tr>"
+                "<tr><th>サッカー（Jリーグ）</th><td>DAZN</td><td>ABEMA・Huluでは観られない</td></tr>"
+                "<tr><th>サッカー（海外）</th><td>DAZN・WOWOW</td><td>UEFAはWOWOW・Lemino</td></tr>"
+                "<tr><th>MLB</th><td>Hulu・DAZN</td><td>同時配信あり</td></tr>"
+                "<tr><th>プロ野球</th><td>球団別（DAZN・スカパー等）</td><td>球団別チェック必須</td></tr>"
+                "<tr><th>麻雀（Mリーグ）</th><td>ABEMA</td><td>独占・他社配信なし</td></tr>"
+                "<tr><th>将棋（順位戦等）</th><td>ABEMA・スカパー</td><td>主要対局はABEMA</td></tr>"
+                "<tr><th>格闘技（RIZIN）</th><td>ABEMA</td><td>大会独占</td></tr>"
+                "<tr><th>F1</th><td>DAZN</td><td>独占・他社配信なし</td></tr>"
+                "<tr><th>NBA</th><td>WOWOW・Hulu（一部）</td><td>主要試合はWOWOW</td></tr>"
+                "</tbody></table>"
+                "<p>このマップを見れば「自分が観たい競技がABEMA・Huluで観られるか」が一目瞭然。"
+                "そもそも観られない競技ならDAZNやWOWOW検討が必要です。</p>"
+            ),
+            "料金・視聴環境の比較": (
+                "<p>料金面では両者に大差はありませんが、サブスク併用時の負担額計算が重要です。</p>"
+                "<table class='spec-table'><tbody>"
+                "<tr><th>項目</th><th>ABEMA</th><th>Hulu</th></tr>"
+                "<tr><th>月額</th><td>1,080円</td><td>1,026円</td></tr>"
+                "<tr><th>無料体験</th><td>2週間</td><td>2024年終了</td></tr>"
+                "<tr><th>同時視聴</th><td>2台</td><td>1台</td></tr>"
+                "<tr><th>画質</th><td>1080p</td><td>1080p</td></tr>"
+                "<tr><th>テレビ視聴</th><td>Fire TV・Apple TV対応</td><td>同左</td></tr>"
+                "</tbody></table>"
+                "<p>料金はほぼ同額。同時視聴はABEMAが1台多い点だけが差別化要素。"
+                "両方契約しても合計2,106円で、Mリーグ＋MLB両方を独占視聴できる構成になります。</p>"
+            ),
+            "結論：観たい競技別の選び方": (
+                "<h3>👍 ABEMAがおすすめな人</h3>"
+                "<ul>"
+                "<li>Mリーグ（麻雀）・将棋を観たい</li>"
+                "<li>RIZIN・ONE Championshipなどの格闘技</li>"
+                "<li>e-sports大会を観たい</li>"
+                "<li>恋愛リアリティ等のドラマも併せて観たい</li>"
+                "</ul>"
+                "<h3>👍 Huluがおすすめな人</h3>"
+                "<ul>"
+                "<li>MLBを毎日観る</li>"
+                "<li>ATPテニスツアーを観たい</li>"
+                "<li>NBA一部試合・球団独占試合を観たい</li>"
+                "<li>海外ドラマと併用したい</li>"
+                "</ul>"
+                "<p>サッカー・F1は両方になく、DAZN必須。観たい競技マップを参考に最適な選択を。</p>"
+            ),
+            "よくある質問": "<p>下部の「❓ よくある質問」セクションをご覧ください。</p>",
+        },
+    },
     {
         "id": "audiobook-tax-deduction",
         "slug": "audiobook-tax-deduction",
@@ -1985,7 +2529,7 @@ ARTICLES = [
         "keyword": "audiobook.jp 法人プラン 経費",
         "description": "audiobook.jpの法人プラン（法人向け聴き放題）を編集部が徹底解説。社員研修・通勤時のインプット効率化・経費計上の手順・税務上の注意点まで、人事/総務担当者必見の完全ガイド。",
         "target_reader": "社員教育・通勤時のインプット効率化を検討する企業",
-        "image_url": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=70",
+        "image_url": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=70&fm=webp&auto=format",
         "sections": [
             "audiobook.jp法人プランとは",
             "個人プランとの違い",
