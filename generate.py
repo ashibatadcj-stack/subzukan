@@ -17,7 +17,12 @@ from content_data import (
     THREE_SECOND_PICKS, TAG_CLOUD, BASIC_KNOWLEDGE,
     NEWS_ITEMS, TOP_FAQS_GROUPED,
     PILLAR_FEATURES, QUICK_START_CARDS,
+    POPULAR_ARTICLE_SLUGS, SIDEBAR_VOD_PICKS,
 )
+
+
+# 記事 slug → article dict のインデックス（サイドバー人気記事生成用）
+ARTICLES_BY_SLUG = {a["slug"]: a for a in ARTICLES}
 
 
 def _articles_with_images(articles: list[dict]) -> list[dict]:
@@ -721,7 +726,24 @@ def render_article(article: dict) -> str:
 
     takeaways_html = T.takeaways_box(article.get("key_takeaways", []))
     toc_html = T.toc(article.get("sections", []))
-    sticky_toc_html = T.toc_sticky(article.get("sections", []))
+
+    # サイドバー（card-affiliate踏襲：TOC＋診断CTA＋人気記事＋おすすめVOD）
+    popular_articles = [
+        ARTICLES_BY_SLUG[s] for s in POPULAR_ARTICLE_SLUGS
+        if s in ARTICLES_BY_SLUG and s != article["slug"]
+    ][:5]
+    vod_picks = [
+        {"vod": VODS_BY_ID[p["vod_id"]], "tag": p["tag"]}
+        for p in SIDEBAR_VOD_PICKS
+        if p["vod_id"] in VODS_BY_ID
+    ]
+    sidebar_html = T.article_sidebar(
+        sections=article.get("sections", []),
+        popular_articles=popular_articles,
+        vod_picks=vod_picks,
+        css_prefix="../",
+    )
+
     body_html = render_article_body(article)
     faq_html = T.faq_block(article.get("faqs", []), "❓ よくある質問")
     cta_mid_html = T.cta_banner(css_prefix="../")
@@ -751,10 +773,12 @@ def render_article(article: dict) -> str:
     body = f"""<body>
 {T.site_header(css_prefix='../')}
 {T.pr_disclosure(css_prefix='../')}
-<main class="container">
-  {breadcrumb_html}
-  <div class="article-with-toc-layout">
-    <article class="article-content">
+<div class="article-wrap-outer">
+  <div class="container container-narrow">
+    {breadcrumb_html}
+  </div>
+  <div class="article-wrap">
+    <article class="article-main article-content">
       <span class="article-cat">{escape(cat_label)}</span>
       <h1>{escape(article['title'])}</h1>
       {meta_html}
@@ -770,9 +794,9 @@ def render_article(article: dict) -> str:
       {editor_cta_html}
       {T.editor_box()}
     </article>
-    {sticky_toc_html}
+    {sidebar_html}
   </div>
-</main>
+</div>
 {T.site_footer(css_prefix='../')}
 </body>"""
     return f"<!DOCTYPE html>\n<html lang=\"ja\">\n{head}\n{body}\n</html>"

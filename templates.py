@@ -644,6 +644,72 @@ def toc_sticky(sections: list[str]) -> str:
 </aside>"""
 
 
+# --------------------------------------------------------------------
+# 記事サイドバー（card版踏襲）：TOC + 診断CTA + 人気記事 + おすすめVOD
+# --------------------------------------------------------------------
+def article_sidebar(*, sections: list[str], popular_articles: list[dict],
+                    vod_picks: list[dict], css_prefix: str = "../") -> str:
+    """記事ページの右カラム。stickyにして縦長記事に追従させる。"""
+    # 1) TOC
+    toc_items = "".join(
+        f'<li><a href="#sec-{i}">{escape(h)}</a></li>'
+        for i, h in enumerate(sections)
+    )
+    toc_block = f"""<div class="sidebar-widget sidebar-toc">
+  <p class="sidebar-widget-title">📑 目次</p>
+  <ul class="sidebar-toc-list">{toc_items}</ul>
+</div>""" if sections else ""
+
+    # 2) 診断CTA
+    cta_block = f"""<div class="sidebar-widget sidebar-cta">
+  <p class="sidebar-cta-title">🎯 サブスク選びに迷ったら</p>
+  <p class="sidebar-cta-desc">3問の質問に答えるだけで、あなたに最適な1本を提案します。</p>
+  <a class="sidebar-cta-btn" href="{css_prefix}index.html#quiz">無料診断スタート</a>
+</div>"""
+
+    # 3) 人気記事TOP5
+    popular_lis = "".join(
+        f'<li><span class="popular-num">{i+1}</span>'
+        f'<a href="{css_prefix}articles/{a["slug"]}.html">{escape(a["title"])}</a></li>'
+        for i, a in enumerate(popular_articles)
+    ) if popular_articles else ""
+    popular_block = f"""<div class="sidebar-widget sidebar-popular">
+  <p class="sidebar-widget-title">🔥 人気記事TOP5</p>
+  <ul class="sidebar-popular-list">{popular_lis}</ul>
+</div>""" if popular_articles else ""
+
+    # 4) おすすめVOD3社（提携中の公式リンクへ）
+    vod_lis = []
+    for pick in vod_picks:
+        v = pick["vod"]
+        tag = pick.get("tag", "")
+        href = v.get("affiliate_url") or f'{css_prefix}services/{v["id"]}.html'
+        rel = ' rel="sponsored noopener" target="_blank"' if v.get("affiliate_url") else ""
+        scores = v.get("recommend_score", {})
+        avg = sum(scores.values()) / len(scores) if scores else 0
+        vod_lis.append(
+            f'<a class="sidebar-vod-pick" href="{href}"{rel}>'
+            f'<span class="sidebar-vod-tag">{escape(tag)}</span>'
+            f'<span class="sidebar-vod-row">'
+            f'<span class="sidebar-vod-icon">{v.get("icon","")}</span>'
+            f'<span class="sidebar-vod-body">'
+            f'<strong>{escape(v["name"])}</strong>'
+            f'<em>月額 {escape(v["monthly_fee"])} ・⭐{avg:.1f}</em>'
+            f'</span></span></a>'
+        )
+    vod_block = f"""<div class="sidebar-widget sidebar-vods">
+  <p class="sidebar-widget-title">🎬 編集部おすすめVOD</p>
+  <div class="sidebar-vod-list">{''.join(vod_lis)}</div>
+</div>""" if vod_picks else ""
+
+    return f"""<aside class="article-sidebar">
+  {toc_block}
+  {cta_block}
+  {vod_block}
+  {popular_block}
+</aside>"""
+
+
 def render_json_ld(*objs) -> str:
     """複数のJSON-LDオブジェクトを <script> タグで連結。Noneは無視。"""
     blocks = []
