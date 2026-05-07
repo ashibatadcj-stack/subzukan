@@ -840,6 +840,11 @@ def _generate_section_body(article: dict, h2: str, idx: int) -> str:
     related_ids = article.get("related_services", [])
     related_names = [VODS_BY_ID[s]["name"] for s in related_ids if s in VODS_BY_ID]
 
+    # custom_body が指定されていればセクションごとに HTML をそのまま使う
+    custom = article.get("custom_body") or {}
+    if h2 in custom:
+        return custom[h2]
+
     if idx == 0:
         return (
             f"<p>{escape(summary)}</p>"
