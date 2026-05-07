@@ -21,7 +21,9 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 
 SCOPES = [
     "https://www.googleapis.com/auth/analytics.readonly",
-    "https://www.googleapis.com/auth/webmasters.readonly",
+    # webmasters は webmasters.readonly の上位互換（書き込み可）。
+    # Search Console の sitemap submit / URL inspection 等の書き込みAPIに必要。
+    "https://www.googleapis.com/auth/webmasters",
 ]
 
 CREDENTIALS_DIR = Path(__file__).parent / "credentials"
