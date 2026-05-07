@@ -17,12 +17,135 @@ from content_data import (
     THREE_SECOND_PICKS, TAG_CLOUD, BASIC_KNOWLEDGE,
     NEWS_ITEMS, TOP_FAQS_GROUPED,
     PILLAR_FEATURES, QUICK_START_CARDS,
-    POPULAR_ARTICLE_SLUGS, SIDEBAR_VOD_PICKS,
+    POPULAR_ARTICLE_SLUGS, SIDEBAR_VOD_PICKS, SIDEBAR_VOD_AUTO_TAGS,
 )
 
 
 # 記事 slug → article dict のインデックス（サイドバー人気記事生成用）
 ARTICLES_BY_SLUG = {a["slug"]: a for a in ARTICLES}
+
+# affiliate_url を持つ VOD ID の集合（収益化済みサービス）
+AFFILIATED_VOD_IDS = {v["id"] for v in VODS if v.get("affiliate_url")}
+
+
+def _has_affiliate_link(article: dict) -> bool:
+    """記事に提携中VODへの導線があるか（related_services にA8提携VODが含まれるか）"""
+    related = article.get("related_services") or []
+    return any(vid in AFFILIATED_VOD_IDS for vid in related)
+
+
+def _affiliate_vod_count(article: dict) -> int:
+    """記事内の提携中VODの数（多いほど収益化機会大）"""
+    related = article.get("related_services") or []
+    return sum(1 for vid in related if vid in AFFILIATED_VOD_IDS)
+
+
+def _category_priority(slug: str) -> int:
+    """カテゴリ別の人気記事への優先度（小さいほど上位）"""
+    return {
+        "purpose":        0,  # 目的別（CV高い）
+        "service-detail": 1,  # 個別レビュー（CV高い）
+        "compare":        2,  # 比較系
+        "guide":          3,  # 総合ガイド
+        "attribute":      4,  # 属性別
+    }.get(slug, 9)
+
+
+def _pick_popular_articles(exclude_slug: str = "", n: int = 5) -> list[dict]:
+    """サイドバーの人気記事を自動選定。
+    優先順位:
+      1. POPULAR_ARTICLE_SLUGS が指定されていれば、その順序を最優先
+      2. 提携中VOD（affiliate_url あり）に紐づく記事を、提携VOD数 → カテゴリ優先度 の順
+      3. 残席があれば、その他記事をカテゴリ優先度順
+    """
+    out: list[dict] = []
+    seen: set[str] = set()
+    if exclude_slug:
+        seen.add(exclude_slug)
+
+    # 1) 手動指定があれば最優先
+    for slug in POPULAR_ARTICLE_SLUGS:
+        if slug in ARTICLES_BY_SLUG and slug not in seen:
+            out.append(ARTICLES_BY_SLUG[slug])
+            seen.add(slug)
+            if len(out) >= n:
+                return out
+
+    # 2) 提携VOD関連記事を自動補完
+    affiliated_articles = sorted(
+        [a for a in ARTICLES if a["slug"] not in seen and _has_affiliate_link(a)],
+        key=lambda a: (-_affiliate_vod_count(a), _category_priority(a["category_slug"])),
+    )
+    for a in affiliated_articles:
+        out.append(a)
+        seen.add(a["slug"])
+        if len(out) >= n:
+            return out
+
+    # 3) その他の記事で埋める
+    others = sorted(
+        [a for a in ARTICLES if a["slug"] not in seen],
+        key=lambda a: _category_priority(a["category_slug"]),
+    )
+    for a in others:
+        out.append(a)
+        seen.add(a["slug"])
+        if len(out) >= n:
+            break
+
+    return out
+
+
+def _pick_sidebar_vods(article: dict | None = None, n: int = 3) -> list[dict]:
+    """サイドバーのおすすめVODを自動選定。
+    優先順位:
+      1. SIDEBAR_VOD_PICKS が指定されていれば、その順序を最優先（タグも明示）
+      2. 記事の related_services に含まれる提携中VOD（記事文脈に最適化）
+      3. affiliate_url を持つVODを recommend_score 平均値の高い順
+    出力: [{"vod": {...}, "tag": "..."}]
+    """
+    out: list[dict] = []
+    seen: set[str] = set()
+
+    # 1) 手動指定
+    for pick in SIDEBAR_VOD_PICKS:
+        vid = pick["vod_id"]
+        if vid in VODS_BY_ID and vid not in seen:
+            out.append({"vod": VODS_BY_ID[vid], "tag": pick.get("tag", "")})
+            seen.add(vid)
+            if len(out) >= n:
+                return out
+
+    auto_tags = SIDEBAR_VOD_AUTO_TAGS or ["🌟 編集部一押し", "🏆 高評価", "💎 注目株"]
+
+    # 2) 記事関連の提携中VODを最優先（記事文脈に合わせる）
+    if article:
+        related_ids = article.get("related_services") or []
+        for vid in related_ids:
+            if vid in VODS_BY_ID and vid in AFFILIATED_VOD_IDS and vid not in seen:
+                v = VODS_BY_ID[vid]
+                idx = len(out)
+                # 関連VODは「この記事と相性◎」タグ
+                tag = "🎯 この記事と相性◎" if idx == 0 else (auto_tags[idx] if idx < len(auto_tags) else "✨ 提携中")
+                out.append({"vod": v, "tag": tag})
+                seen.add(vid)
+                if len(out) >= n:
+                    return out
+
+    # 3) 提携中VODをスコア順に補完
+    affiliated_vods = sorted(
+        [v for v in VODS if v.get("affiliate_url") and v["id"] not in seen],
+        key=lambda v: -avg_score(v.get("recommend_score", {})),
+    )
+    for v in affiliated_vods:
+        idx = len(out)
+        tag = auto_tags[idx] if idx < len(auto_tags) else "✨ 提携中"
+        out.append({"vod": v, "tag": tag})
+        seen.add(v["id"])
+        if len(out) >= n:
+            break
+
+    return out
 
 
 def _articles_with_images(articles: list[dict]) -> list[dict]:
@@ -727,16 +850,10 @@ def render_article(article: dict) -> str:
     takeaways_html = T.takeaways_box(article.get("key_takeaways", []))
     toc_html = T.toc(article.get("sections", []))
 
-    # サイドバー（card-affiliate踏襲：TOC＋診断CTA＋人気記事＋おすすめVOD）
-    popular_articles = [
-        ARTICLES_BY_SLUG[s] for s in POPULAR_ARTICLE_SLUGS
-        if s in ARTICLES_BY_SLUG and s != article["slug"]
-    ][:5]
-    vod_picks = [
-        {"vod": VODS_BY_ID[p["vod_id"]], "tag": p["tag"]}
-        for p in SIDEBAR_VOD_PICKS
-        if p["vod_id"] in VODS_BY_ID
-    ]
+    # サイドバー（card-affiliate踏襲：TOC＋診断CTA＋おすすめVOD＋人気記事）
+    # 「アフィリエイト提携中のVODに紐づく記事/サービスを優先」して自動選定
+    popular_articles = _pick_popular_articles(exclude_slug=article["slug"], n=5)
+    vod_picks = _pick_sidebar_vods(article=article, n=3)
     sidebar_html = T.article_sidebar(
         sections=article.get("sections", []),
         popular_articles=popular_articles,
