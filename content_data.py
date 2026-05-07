@@ -69,6 +69,72 @@ EDITORS_DETAIL = [
 
 
 # --------------------------------------------------------------------
+# 3つの特集ピラーカード（card版踏襲・冒頭で大ジャンル分け）
+# --------------------------------------------------------------------
+PILLAR_FEATURES = [
+    {
+        "icon": "📺",
+        "title": "VOD総合ガイド",
+        "description": "11社の動画配信サービスを5軸スコアで徹底比較。U-NEXT・Hulu・DAZNから専門特化型まで網羅。",
+        "link": "articles/vod-complete-guide-2026.html",
+        "color": "#7c3aed",  # 紫
+        "bg_tint": "#faf5ff",
+    },
+    {
+        "icon": "🎓",
+        "title": "学習サブスク比較",
+        "description": "オンライン英会話・学び放題・スキル系サブスクの活用法。GLOBIS / DMM英会話 / キャンブリー比較。",
+        "link": "index.html#tags",
+        "color": "#0d9488",  # ティール
+        "bg_tint": "#f0fdfa",
+    },
+    {
+        "icon": "📚",
+        "title": "読書・読み放題サブスク",
+        "description": "audiobook.jp / Amebaマンガ / Fujisan.co.jp で「読む・聴く」サブスクを最大活用する選び方。",
+        "link": "articles/audiobook-comparison-2026.html",
+        "color": "#ec4899",  # ピンク
+        "bg_tint": "#fdf2f8",
+    },
+]
+
+
+# --------------------------------------------------------------------
+# 初心者向けクイックスタート4枚（card版踏襲・初心者導線）
+# --------------------------------------------------------------------
+QUICK_START_CARDS = [
+    {
+        "icon": "🎯",
+        "title": "VODの選び方完全ガイド",
+        "subtitle": "初心者向け・3つの判断軸",
+        "link": "articles/vod-beginner-guide.html",
+        "accent": "#7c3aed",
+    },
+    {
+        "icon": "🎁",
+        "title": "無料体験で失敗しない3つのコツ",
+        "subtitle": "解約忘れ対策付き",
+        "link": "articles/free-trial-tips.html",
+        "accent": "#10b981",
+    },
+    {
+        "icon": "🇰🇷",
+        "title": "韓国ドラマを観るならどのVOD？",
+        "subtitle": "Lemino / U-NEXT / DMM TV比較",
+        "link": "articles/korean-drama-vod.html",
+        "accent": "#f59e0b",
+    },
+    {
+        "icon": "🎬",
+        "title": "アニメ視聴向けVOD決定版",
+        "subtitle": "dアニメ / DMM TV / ABEMA比較",
+        "link": "articles/anime-vod.html",
+        "accent": "#ec4899",
+    },
+]
+
+
+# --------------------------------------------------------------------
 # 「3秒で結論」用の即決バナー
 # --------------------------------------------------------------------
 THREE_SECOND_PICKS = [

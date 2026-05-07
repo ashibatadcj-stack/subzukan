@@ -10,13 +10,25 @@ from html import escape
 from dotenv import load_dotenv
 
 from vods_data import VODS, QUIZ_QUESTIONS, COMPARE_AXES, SCORE_AXES
-from articles_data import ARTICLES, CATEGORIES
+from articles_data import ARTICLES, CATEGORIES, DEFAULT_IMAGES
 from content_data import (
     EDITOR, EDITORS_DETAIL, SITE_ABOUT,
     HOW_TO_CHOOSE, USE_CASES,
     THREE_SECOND_PICKS, TAG_CLOUD, BASIC_KNOWLEDGE,
     NEWS_ITEMS, TOP_FAQS_GROUPED,
+    PILLAR_FEATURES, QUICK_START_CARDS,
 )
+
+
+def _articles_with_images(articles: list[dict]) -> list[dict]:
+    """各記事に image_url を補完（明示指定 > カテゴリのデフォルト画像）"""
+    out = []
+    for a in articles:
+        if a.get("image_url"):
+            out.append(a)
+        else:
+            out.append({**a, "image_url": DEFAULT_IMAGES.get(a.get("category_slug", ""), "")})
+    return out
 import templates as T
 
 BASE_DIR = Path(__file__).parent
@@ -82,22 +94,19 @@ def render_index() -> str:
         extra_css="assets/common.css",
     )
 
+    # 9セクション構成（card-affiliate参考の縦長解消版）
     sections = [
-        _render_hero(),
-        _render_three_second_picks(),
-        _render_quiz(),
-        _render_vod_profiles(),
-        _render_ranking_tabs(),
-        _render_compare_table(),
-        _render_use_cases(),
-        _render_tag_cloud(),
-        _render_how_to_choose(),
-        _render_basic_knowledge(),
-        _render_news(),
-        _render_articles_grid(),
-        _render_faq_grouped(),
-        _render_editors_detail(),
-        _render_about_block(),
+        _render_hero(),                                   # 1. ヒーロー
+        T.pillar_card_block(PILLAR_FEATURES),             # 2. 3つの特集ピラー（新規）
+        T.quick_start_block(QUICK_START_CARDS),           # 3. クイックスタート（新規）
+        _render_three_second_picks(),                     # 4. 3秒で結論
+        _render_quiz(),                                   # 5. 診断クイズ
+        _render_top5_compact(),                           # 6. 人気TOP5コンパクト表（差替）
+        _render_ranking_tabs(),                           # 7. ランキングタブ＋比較表（統合）
+        _render_use_cases_combined(),                     # 8. 目的別＋タグクラウド（統合）
+        _render_how_to_choose(),                          # 9. 選び方ガイド
+        _render_articles_card_grid(),                     # 10. 記事カードグリッド（新規・画像付）
+        _render_faq_grouped(),                            # 11. FAQ
     ]
 
     sticky_cta = """<aside class="sticky-cta" id="stickyCta" hidden>
@@ -488,6 +497,89 @@ def _render_about_block() -> str:
 
 
 # --------------------------------------------------------------------
+# [新規] 6. 人気サブスクTOP5コンパクト表＋A8バナー（card版踏襲）
+# --------------------------------------------------------------------
+def _render_top5_compact() -> str:
+    sorted_vods = sorted(VODS, key=lambda v: -avg_score(v.get("recommend_score", {})))
+    top5 = sorted_vods[:5]
+    table_html = T.compact_vod_table(top5, link_prefix='services/')
+
+    # 提携中のVODのうち、TOP5の先頭で affiliate_url を持つものをバナーに
+    banner_vod = next((v for v in top5 if v.get("affiliate_url")), None)
+    banner_html = T.a8_banner_block(vod=banner_vod, label="🌟 編集部おすすめ・公式サイトはこちら") if banner_vod else ""
+
+    return f"""<section class="zone zone-top5" id="top5">
+  <div class="zone-inner">
+    <div class="zone-header">
+      <h2>🏆 人気サブスクTOP5</h2>
+      <p>編集部スコア順にコンパクト表示（タップで個別ページへ）</p>
+    </div>
+    {table_html}
+    {banner_html}
+    <div class="zone-more"><a class="zone-more-link" href="#ranking">▼ ランキング全11社・全5系統で見る</a></div>
+  </div>
+</section>"""
+
+
+# --------------------------------------------------------------------
+# [新規] 8. 目的別＋タグクラウド（統合）
+# --------------------------------------------------------------------
+def _render_use_cases_combined() -> str:
+    # 目的別カード
+    uc_cards = []
+    for uc in USE_CASES:
+        primary = VODS_BY_ID.get(uc["primary"])
+        if not primary:
+            continue
+        alts = ", ".join(VODS_BY_ID[a]["name"] for a in uc["alt"] if a in VODS_BY_ID)
+        uc_cards.append(f"""<div class="usecase-card">
+      <span class="usecase-icon">{uc['icon']}</span>
+      <h3>{escape(uc['title'])}</h3>
+      <p class="usecase-reason">{escape(uc['reason'])}</p>
+      <a href="services/{primary['id']}.html" class="usecase-primary">
+        {primary.get('icon','')} <strong>{escape(primary['name'])}</strong> を見る
+      </a>
+      <p class="usecase-alt">他候補: {escape(alts)}</p>
+    </div>""")
+
+    # タグクラウド
+    tag_blocks = []
+    for group, items in TAG_CLOUD.items():
+        chips = "".join(
+            f'<a class="tag-chip" href="services/{t["vod_id"]}.html">'
+            f'<span class="tag-label">{escape(t["label"])}</span>'
+            f'<span class="tag-arrow">→</span>'
+            f'</a>'
+            for t in items
+        )
+        tag_blocks.append(
+            f'<div class="tag-block"><h4>{escape(group)}</h4><div class="tag-chips">{chips}</div></div>'
+        )
+
+    return f"""<section class="zone zone-purpose" id="use-cases">
+  <div class="zone-inner">
+    <div class="zone-header">
+      <h2>🎯 目的・キーワードから探す</h2>
+      <p>観たいジャンルや使い方から最適なVODに直接ジャンプ</p>
+    </div>
+    <div class="usecase-grid">{''.join(uc_cards)}</div>
+    <div class="tag-cloud-wrap" id="tags">
+      <h3 class="tag-cloud-title">🔖 ジャンル・属性・予算で逆引き</h3>
+      {''.join(tag_blocks)}
+    </div>
+  </div>
+</section>"""
+
+
+# --------------------------------------------------------------------
+# [新規] 10. 記事カードグリッド（画像付・card版踏襲）
+# --------------------------------------------------------------------
+def _render_articles_card_grid() -> str:
+    enriched = _articles_with_images(ARTICLES)
+    return T.article_card_grid(enriched, CATEGORIES, link_prefix='articles/')
+
+
+# --------------------------------------------------------------------
 # クイズスクリプト（既存ロジック）
 # --------------------------------------------------------------------
 def _render_quiz_script() -> str:
@@ -629,30 +721,57 @@ def render_article(article: dict) -> str:
 
     takeaways_html = T.takeaways_box(article.get("key_takeaways", []))
     toc_html = T.toc(article.get("sections", []))
+    sticky_toc_html = T.toc_sticky(article.get("sections", []))
     body_html = render_article_body(article)
     faq_html = T.faq_block(article.get("faqs", []), "❓ よくある質問")
     cta_mid_html = T.cta_banner(css_prefix="../")
+    editor_cta_html = T.editor_cta_block(css_prefix="../")
     related_vods = [VODS_BY_ID[s] for s in article.get("related_services", []) if s in VODS_BY_ID]
     related_html = T.related_service_cards(related_vods, link_prefix="../services/")
+
+    # 中段A8バナー（記事中盤に挿入・関連VODのうち提携中のものを優先）
+    a8_vod = next((v for v in related_vods if v.get("affiliate_url")), None)
+    a8_mid_html = T.a8_banner_block(
+        vod=a8_vod,
+        label=f"🌟 編集部おすすめ：{a8_vod['name']}を試してみる" if a8_vod else "",
+    ) if a8_vod else ""
+
+    # 関連記事カードグリッド（画像付・新規）
+    related_articles = []
+    for a in ARTICLES:
+        if a["slug"] == article["slug"]:
+            continue
+        if a.get("category_slug") == article.get("category_slug"):
+            related_articles.append(a)
+            if len(related_articles) >= 4:
+                break
+    related_articles_enriched = _articles_with_images(related_articles)
+    related_articles_html = T.related_articles_grid(related_articles_enriched, CATEGORIES, link_prefix="../articles/")
 
     body = f"""<body>
 {T.site_header(css_prefix='../')}
 {T.pr_disclosure(css_prefix='../')}
 <main class="container">
   {breadcrumb_html}
-  <article class="article-content">
-    <span class="article-cat">{escape(cat_label)}</span>
-    <h1>{escape(article['title'])}</h1>
-    {meta_html}
-    <p class="lead">{escape(article.get('summary', article['description']))}</p>
-    {takeaways_html}
-    {toc_html}
-    {body_html}
-    {cta_mid_html}
-    {faq_html}
-    {related_html}
-    {T.editor_box()}
-  </article>
+  <div class="article-with-toc-layout">
+    <article class="article-content">
+      <span class="article-cat">{escape(cat_label)}</span>
+      <h1>{escape(article['title'])}</h1>
+      {meta_html}
+      <p class="lead">{escape(article.get('summary', article['description']))}</p>
+      {takeaways_html}
+      {toc_html}
+      {body_html}
+      {a8_mid_html}
+      {cta_mid_html}
+      {faq_html}
+      {related_html}
+      {related_articles_html}
+      {editor_cta_html}
+      {T.editor_box()}
+    </article>
+    {sticky_toc_html}
+  </div>
 </main>
 {T.site_footer(css_prefix='../')}
 </body>"""

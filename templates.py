@@ -427,6 +427,223 @@ def json_ld_product(vod: dict, url: str) -> dict:
     }
 
 
+# --------------------------------------------------------------------
+# 3つの特集ピラーカード（card版踏襲）
+# --------------------------------------------------------------------
+def pillar_card_block(features: list[dict]) -> str:
+    cards = []
+    for f in features:
+        cards.append(f"""<a class="pillar-card" href="{f['link']}" style="--pillar-color:{f['color']};--pillar-bg:{f['bg_tint']}">
+      <span class="pillar-icon">{f['icon']}</span>
+      <strong class="pillar-title">{escape(f['title'])}</strong>
+      <span class="pillar-desc">{escape(f['description'])}</span>
+      <span class="pillar-cta">完全ガイドを見る →</span>
+    </a>""")
+    return f"""<section class="zone zone-pillar">
+  <div class="zone-inner">
+    <div class="zone-header">
+      <h2>📚 完全ガイド：3つの特集</h2>
+      <p>用途別にVOD・サブスクを横断比較できる総合ガイド</p>
+    </div>
+    <div class="pillar-grid">{''.join(cards)}</div>
+  </div>
+</section>"""
+
+
+# --------------------------------------------------------------------
+# 初心者向けクイックスタート4枚
+# --------------------------------------------------------------------
+def quick_start_block(cards: list[dict]) -> str:
+    items = []
+    for c in cards:
+        items.append(f"""<a class="quickstart-card" href="{c['link']}" style="--qs-accent:{c['accent']}">
+      <span class="quickstart-icon" style="background:{c['accent']}1a;color:{c['accent']}">{c['icon']}</span>
+      <span class="quickstart-text">
+        <strong>{escape(c['title'])}</strong>
+        <em>{escape(c['subtitle'])}</em>
+      </span>
+    </a>""")
+    return f"""<section class="zone zone-quickstart">
+  <div class="zone-inner">
+    <div class="zone-header">
+      <h2>🚀 初めてサブスクを選ぶ方へ</h2>
+      <p>まずは4つの記事で基本を押さえる</p>
+    </div>
+    <div class="quickstart-grid">{''.join(items)}</div>
+  </div>
+</section>"""
+
+
+# --------------------------------------------------------------------
+# コンパクトなTOP5スペック表（card版風）
+# --------------------------------------------------------------------
+def compact_vod_table(vods: list[dict], *, link_prefix: str = "services/") -> str:
+    rows = []
+    for i, v in enumerate(vods, 1):
+        scores = v.get("recommend_score", {})
+        avg = sum(scores.values()) / len(scores) if scores else 0
+        rows.append(f"""<a class="compact-vod-card" href="{link_prefix}{v['id']}.html">
+      <span class="compact-rank">{i}位</span>
+      <span class="compact-icon">{v.get('icon','')}</span>
+      <div class="compact-body">
+        <strong class="compact-name">{escape(v['name'])}</strong>
+        <span class="compact-tag">{escape(v.get('difficulty',''))}</span>
+        <div class="compact-specs">
+          <span><em>月額</em>{escape(v['monthly_fee'])}</span>
+          <span><em>無料体験</em>{f"{v['free_trial_days']}日" if v['free_trial_days'] else "なし"}</span>
+          <span><em>同時視聴</em>{v.get('simultaneous_streams','-')}台</span>
+          <span><em>スコア</em>⭐{avg:.1f}</span>
+        </div>
+      </div>
+      <span class="compact-cta">詳細 →</span>
+    </a>""")
+    return f'<div class="compact-vod-list">{"".join(rows)}</div>'
+
+
+# --------------------------------------------------------------------
+# 記事カードグリッド（画像付・card版踏襲）
+# --------------------------------------------------------------------
+def article_card_grid(articles: list[dict], categories: dict, *, link_prefix: str = "articles/") -> str:
+    # カテゴリごとの色（CSSで定義済みのクラス名）
+    cat_color_class = {
+        "guide": "blue",
+        "compare": "purple",
+        "attribute": "green",
+        "purpose": "orange",
+        "service-detail": "red",
+    }
+    cards = []
+    for a in articles:
+        img = a.get("image_url") or ""
+        cat_label = categories.get(a["category_slug"], a["category_slug"])
+        cat_class = cat_color_class.get(a["category_slug"], "")
+        # サマリの最初の100字
+        summary = (a.get("summary") or a.get("description") or "")[:80]
+        cards.append(f"""<a class="article-card" href="{link_prefix}{a['slug']}.html">
+      <div class="article-card-img-wrap">
+        {f'<img class="article-card-img" src="{img}" alt="{escape(a["title"])}" loading="lazy">' if img else '<div class="article-card-img article-card-noimg"></div>'}
+        <span class="article-cat {cat_class}">{escape(cat_label)}</span>
+      </div>
+      <div class="article-card-body">
+        <strong class="article-card-title">{escape(a['title'])}</strong>
+        <span class="article-card-summary">{escape(summary)}…</span>
+        <span class="article-card-meta">📅 {escape(a.get('updated_at',''))}</span>
+      </div>
+    </a>""")
+    return f"""<section class="zone zone-articles">
+  <div class="zone-inner">
+    <div class="zone-header">
+      <h2>📰 全{len(articles)}記事一覧</h2>
+      <p>カテゴリ別に整理した解説記事</p>
+    </div>
+    <div class="article-card-grid">{''.join(cards)}</div>
+  </div>
+</section>"""
+
+
+# --------------------------------------------------------------------
+# A8バナーブロック（提携中プログラムの公式バナー埋め込み枠）
+# --------------------------------------------------------------------
+def a8_banner_block(*, vod: dict | None = None, label: str = "おすすめのサブスク") -> str:
+    """提携中の公式バナーを埋め込む枠。vod.affiliate_url と icon を使う。"""
+    if not vod or not vod.get("affiliate_url"):
+        return ""
+    return f"""<aside class="a8-banner-section">
+  <div class="a8-banner-label">{escape(label)}</div>
+  <a class="a8-banner-card" href="{vod['affiliate_url']}" rel="sponsored noopener" target="_blank">
+    <span class="a8-banner-icon">{vod.get('icon','')}</span>
+    <div class="a8-banner-body">
+      <strong>{escape(vod['name'])}</strong>
+      <span>{escape(vod.get('tagline',''))}</span>
+      <em>月額 {escape(vod['monthly_fee'])} {f"・{vod['free_trial_days']}日無料体験" if vod.get('free_trial_days') else ""}</em>
+    </div>
+    <span class="a8-banner-cta">▶ 公式サイトへ</span>
+  </a>
+</aside>"""
+
+
+# --------------------------------------------------------------------
+# 申込前チェックリスト（個別ページ用）
+# --------------------------------------------------------------------
+def signup_checklist_block(vod: dict) -> str:
+    items = [
+        "クレジットカードが手元にある（無料体験でも登録時に必要）",
+        f"解約期限（{vod.get('free_trial_days','')}日後）をスマホのカレンダーに登録した" if vod.get('free_trial_days') else "解約方法を確認した",
+        "視聴したいデバイスでアプリが対応しているか確認した",
+        "Wi-Fi環境または十分なモバイルデータ容量がある",
+    ]
+    lis = "\n      ".join(f'<li><label><input type="checkbox" disabled> {escape(it)}</label></li>' for it in items)
+    return f"""<section class="vod-section signup-checklist">
+  <h2>📝 申込前チェックリスト</h2>
+  <p class="section-lead">下記すべてOKなら、安心して申し込めます。</p>
+  <ul class="checklist">
+      {lis}
+  </ul>
+</section>"""
+
+
+# --------------------------------------------------------------------
+# 関連記事画像カードグリッド
+# --------------------------------------------------------------------
+def related_articles_grid(articles: list[dict], categories: dict, *, link_prefix: str = "../articles/") -> str:
+    if not articles:
+        return ""
+    cat_color_class = {
+        "guide": "blue", "compare": "purple", "attribute": "green",
+        "purpose": "orange", "service-detail": "red",
+    }
+    cards = []
+    for a in articles[:4]:
+        img = a.get("image_url") or ""
+        cat_label = categories.get(a["category_slug"], a["category_slug"])
+        cat_class = cat_color_class.get(a["category_slug"], "")
+        cards.append(f"""<a class="article-card article-card-sm" href="{link_prefix}{a['slug']}.html">
+      <div class="article-card-img-wrap">
+        {f'<img class="article-card-img" src="{img}" alt="{escape(a["title"])}" loading="lazy">' if img else '<div class="article-card-img article-card-noimg"></div>'}
+        <span class="article-cat {cat_class}">{escape(cat_label)}</span>
+      </div>
+      <div class="article-card-body">
+        <strong class="article-card-title">{escape(a['title'])}</strong>
+      </div>
+    </a>""")
+    return f"""<section class="related related-articles">
+  <h2>📖 関連記事</h2>
+  <div class="article-card-grid related-grid">{''.join(cards)}</div>
+</section>"""
+
+
+# --------------------------------------------------------------------
+# 編集部CTAブロック（記事ページ末尾用・card版踏襲）
+# --------------------------------------------------------------------
+def editor_cta_block(*, css_prefix: str = "../") -> str:
+    return f"""<aside class="editor-cta">
+  <div class="editor-cta-icon">✍</div>
+  <div class="editor-cta-body">
+    <strong>{escape(EDITOR['name'])}より</strong>
+    <p>14社を実契約してきた編集部が、3問の質問に答えるだけで「あなたに最適な1本」を提案します。迷ったらまず診断クイズを試してみてください。</p>
+    <a href="{css_prefix}index.html#quiz" class="editor-cta-btn">🎯 無料で診断する（1分）</a>
+  </div>
+</aside>"""
+
+
+# --------------------------------------------------------------------
+# スティッキーサイドバー目次（PC用・記事ページ用）
+# --------------------------------------------------------------------
+def toc_sticky(sections: list[str]) -> str:
+    if not sections:
+        return ""
+    items = "\n      ".join(
+        f'<li><a href="#sec-{i}">{escape(h)}</a></li>'
+        for i, h in enumerate(sections)
+    )
+    return f"""<aside class="toc-sticky">
+  <p class="toc-title">📑 目次</p>
+  <ol>
+      {items}
+  </ol>
+</aside>"""
+
+
 def render_json_ld(*objs) -> str:
     """複数のJSON-LDオブジェクトを <script> タグで連結。Noneは無視。"""
     blocks = []

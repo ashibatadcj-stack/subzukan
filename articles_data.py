@@ -34,6 +34,15 @@ AUTHOR = "サブスク図鑑 編集部"
 PUBLISHED_DEFAULT = "2026-04-15"
 UPDATED_DEFAULT = "2026-05-07"
 
+# 記事カテゴリ別のデフォルト画像（Unsplash の無料画像）
+DEFAULT_IMAGES = {
+    "guide":          "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=600&q=70",
+    "compare":        "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=600&q=70",
+    "attribute":      "https://images.unsplash.com/photo-1521405617584-1d9ca2c5b66e?w=600&q=70",
+    "purpose":        "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=70",
+    "service-detail": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&q=70",
+}
+
 ARTICLES = [
     # ========================================================
     # ピラー記事（最上位ハブ）

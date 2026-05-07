@@ -21,7 +21,20 @@ from html import escape
 
 from vods_data import VODS, SCORE_AXES
 from content_data import SIGNUP_STEPS_TEMPLATE, CANCEL_STEPS_TEMPLATE, SERVICE_FAQ_TEMPLATES
+from articles_data import ARTICLES, CATEGORIES, DEFAULT_IMAGES
 import templates as T
+
+
+def _related_articles_for_vod(vod_id: str, max_n: int = 4) -> list[dict]:
+    """このVODに related_services として登録されている記事を最大4件返す（image_url補完）"""
+    out = []
+    for a in ARTICLES:
+        if vod_id in (a.get("related_services") or []):
+            enriched = a if a.get("image_url") else {**a, "image_url": DEFAULT_IMAGES.get(a.get("category_slug", ""), "")}
+            out.append(enriched)
+            if len(out) >= max_n:
+                break
+    return out
 
 BASE_DIR = Path(__file__).parent
 SERVICES_DIR = BASE_DIR / 'docs' / 'services'
@@ -210,6 +223,15 @@ def render_page(vod: dict) -> str:
   <ul class="genre-pills">{"".join(f'<li>{escape(g)}</li>' for g in vod.get('genres', []))}</ul>
 </section>"""
 
+    # 申込前チェックリスト（card版踏襲・新規）
+    checklist_html = T.signup_checklist_block(vod)
+
+    # 中段A8バナー（公式サイト誘導枠・新規）
+    a8_banner_html = T.a8_banner_block(
+        vod=vod,
+        label=f"🎁 公式サイトで{trial_days}日間無料体験する" if trial_days else "🌟 公式サイトはこちら",
+    )
+
     # 登録手順
     signup_html = f"""<section class="vod-section" id="signup">
   <h2>📝 登録方法（4ステップ）</h2>
@@ -247,8 +269,12 @@ def render_page(vod: dict) -> str:
   {T.faq_block(faqs, '❓ よくある質問')}
 </section>"""
 
-    # 関連
+    # 関連サービス
     related_html = T.related_service_cards(others, link_prefix='')
+
+    # 関連記事グリッド（画像付・新規）
+    related_articles = _related_articles_for_vod(vod["id"])
+    related_articles_html = T.related_articles_grid(related_articles, CATEGORIES, link_prefix='../articles/') if related_articles else ""
 
     # CTA末尾
     cta_end_html = f"""<section class="vod-section vod-cta-end">
@@ -267,16 +293,19 @@ def render_page(vod: dict) -> str:
   <article class="vod-article">
     {score_html}
     {spec_html}
+    {a8_banner_html}
     {pricing_html}
     {pros_cons_html}
     {usp_html}
     {target_html}
     {genre_html}
+    {checklist_html}
     {signup_html}
     {cancel_html}
     {compare_html}
     {faq_html}
     {related_html}
+    {related_articles_html}
     {cta_end_html}
     {T.editor_box()}
   </article>
