@@ -118,6 +118,8 @@ def render_page(vod: dict) -> str:
         T.json_ld_breadcrumb(crumbs_data),
         T.json_ld_product(vod, page_url),
         T.json_ld_faq(faqs),
+        T.json_ld_howto_signup(vod, page_url),
+        T.json_ld_howto_cancel(vod, page_url),
     )
 
     head = T.head_block(

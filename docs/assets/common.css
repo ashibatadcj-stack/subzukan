@@ -2252,6 +2252,20 @@ img { max-width: 100%; height: auto; }
   .sidebar-widget.sidebar-toc { display: none; }
 }
 
+/* ===== 本文内のVOD名 自動リンク（控えめなアンダーライン） ===== */
+.autolink {
+  color: #be185d;
+  text-decoration: underline;
+  text-decoration-color: rgba(190, 24, 93, 0.3);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.15s, color 0.15s;
+}
+.autolink:hover {
+  color: #ec4899;
+  text-decoration-color: #ec4899;
+}
+
 /* ------- 編集部CTA（記事ページ末尾用） ------- */
 .editor-cta {
   margin: 32px 0;

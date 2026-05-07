@@ -919,6 +919,52 @@ def render_article(article: dict) -> str:
     return f"<!DOCTYPE html>\n<html lang=\"ja\">\n{head}\n{body}\n</html>"
 
 
+# --------------------------------------------------------------------
+# 本文中のVOD名を自動的に個別ページへリンク化（最初の出現1回のみ）
+# --------------------------------------------------------------------
+def _auto_link_vod_names(html: str, current_slug: str = "") -> str:
+    """記事本文中のVOD名を初出のみ個別ページへリンク化する。
+    既にリンクされた箇所、テーブルセル、見出し、属性値はスキップ。"""
+    import re
+    # サービス名を長い順に並べる（部分マッチ防止）
+    vods_sorted = sorted(VODS, key=lambda v: -len(v["name"]))
+    linked: set[str] = set()
+
+    # スキップする位置を検出（既存タグ内・属性値内）
+    def in_tag_or_attr(text: str, pos: int) -> bool:
+        # 直前の < から > までの間にいるか判定
+        last_lt = text.rfind("<", 0, pos)
+        last_gt = text.rfind(">", 0, pos)
+        return last_lt > last_gt
+
+    def already_linked(text: str, pos: int, name: str) -> bool:
+        # 直前の数百字に <a が出てきて、まだ </a> していないなら既にリンク内
+        prefix = text[max(0, pos - 200):pos]
+        a_open = prefix.rfind("<a ")
+        a_close = prefix.rfind("</a>")
+        return a_open > a_close
+
+    out = html
+    for v in vods_sorted:
+        name = v["name"]
+        if v["id"] in linked or len(name) < 3:
+            continue
+        # 個別ページへのリンク（current_slugページ自身ならスキップ）
+        if current_slug == v["id"]:
+            continue
+        # 最初の出現位置を探してリンク化
+        pos = out.find(name)
+        while pos >= 0:
+            if not in_tag_or_attr(out, pos) and not already_linked(out, pos, name):
+                href = f'../services/{v["id"]}.html'
+                replacement = f'<a class="autolink" href="{href}">{name}</a>'
+                out = out[:pos] + replacement + out[pos + len(name):]
+                linked.add(v["id"])
+                break
+            pos = out.find(name, pos + 1)
+    return out
+
+
 def render_article_body(article: dict) -> str:
     sections = article.get("sections", [])
     cat = article["category_slug"]
@@ -971,7 +1017,9 @@ def render_article_body(article: dict) -> str:
                 parts.append(f'<div class="ranking-list">{"".join(cards)}</div>')
                 inserted_ranking = True
 
-    return "\n".join(parts)
+    # 本文を組み立て、VOD名の最初の出現を個別ページへ自動リンク
+    body_html = "\n".join(parts)
+    return _auto_link_vod_names(body_html, current_slug=article.get("id", ""))
 
 
 def _generate_section_body(article: dict, h2: str, idx: int) -> str:

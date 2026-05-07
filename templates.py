@@ -399,6 +399,56 @@ def json_ld_faq(faqs: list[dict]) -> dict:
     }
 
 
+def json_ld_howto_signup(vod: dict, url: str) -> dict:
+    """登録手順のHowTo schema（リッチリザルト獲得用）"""
+    name = vod["name"]
+    trial = vod.get("free_trial_days", 0)
+    return {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": f"{name}の登録方法（4ステップ）",
+        "description": f"{name}に新規登録し" + (f"{trial}日間の無料体験を始める" if trial else "サービス利用を開始する") + "までの手順",
+        "totalTime": "PT5M",
+        "estimatedCost": {
+            "@type": "MonetaryAmount",
+            "currency": "JPY",
+            "value": "".join(c for c in str(vod.get("monthly_fee", "0")) if c.isdigit()) or "0",
+        },
+        "step": [
+            {"@type": "HowToStep", "position": 1, "name": "公式サイトにアクセス",
+             "text": f"{name}の公式サイトを開き、「{('無料体験を始める' if trial else '今すぐ登録')}」ボタンをタップ。", "url": vod.get("official_url", url)},
+            {"@type": "HowToStep", "position": 2, "name": "メールアドレス登録",
+             "text": "メールアドレスを入力し、ログイン用のパスワードを設定する。"},
+            {"@type": "HowToStep", "position": 3, "name": "支払い方法の登録",
+             "text": "クレジットカード/キャリア決済/Apple ID/Google Playのいずれかを選択し、必要情報を入力。" + (f"無料体験中は課金されません。" if trial else "")},
+            {"@type": "HowToStep", "position": 4, "name": "視聴開始",
+             "text": f"登録完了後、すぐに{name}の視聴・利用が開始可能。スマホアプリの併用もおすすめ。"},
+        ],
+    }
+
+
+def json_ld_howto_cancel(vod: dict, url: str) -> dict:
+    """解約手順のHowTo schema"""
+    name = vod["name"]
+    return {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": f"{name}の解約方法（4ステップ）",
+        "description": f"{name}を公式サイトから解約する手順。違約金なし・24時間いつでも可能。",
+        "totalTime": "PT3M",
+        "step": [
+            {"@type": "HowToStep", "position": 1, "name": "公式サイトにログイン",
+             "text": f"{name}の公式サイト（PC/スマホブラウザ）にログイン。", "url": vod.get("official_url", url)},
+            {"@type": "HowToStep", "position": 2, "name": "アカウント設定を開く",
+             "text": "マイページ → アカウント設定 → 契約情報（または視聴プラン）に進む。"},
+            {"@type": "HowToStep", "position": 3, "name": "解約を選択",
+             "text": "「解約する」「プランを解約」ボタンをタップ。アンケートが表示される場合は任意で回答。"},
+            {"@type": "HowToStep", "position": 4, "name": "解約完了の確認",
+             "text": "解約完了メールが届いたら手続き終了。日割り返金は基本的にありません。"},
+        ],
+    }
+
+
 def json_ld_product(vod: dict, url: str) -> dict:
     """個別VODページ用の Product/SoftwareApplication 型JSON-LD"""
     scores = vod.get("recommend_score", {})
@@ -519,9 +569,14 @@ def article_card_grid(articles: list[dict], categories: dict, *, link_prefix: st
         cat_class = cat_color_class.get(a["category_slug"], "")
         # サマリの最初の100字
         summary = (a.get("summary") or a.get("description") or "")[:80]
+        # CLS改善：width/height を明示
+        img_tag = (
+            f'<img class="article-card-img" src="{img}" alt="{escape(a["title"])}" '
+            f'width="600" height="338" loading="lazy">'
+        ) if img else '<div class="article-card-img article-card-noimg"></div>'
         cards.append(f"""<a class="article-card" href="{link_prefix}{a['slug']}.html">
       <div class="article-card-img-wrap">
-        {f'<img class="article-card-img" src="{img}" alt="{escape(a["title"])}" loading="lazy">' if img else '<div class="article-card-img article-card-noimg"></div>'}
+        {img_tag}
         <span class="article-cat {cat_class}">{escape(cat_label)}</span>
       </div>
       <div class="article-card-body">
@@ -597,9 +652,13 @@ def related_articles_grid(articles: list[dict], categories: dict, *, link_prefix
         img = a.get("image_url") or ""
         cat_label = categories.get(a["category_slug"], a["category_slug"])
         cat_class = cat_color_class.get(a["category_slug"], "")
+        img_tag = (
+            f'<img class="article-card-img" src="{img}" alt="{escape(a["title"])}" '
+            f'width="600" height="338" loading="lazy">'
+        ) if img else '<div class="article-card-img article-card-noimg"></div>'
         cards.append(f"""<a class="article-card article-card-sm" href="{link_prefix}{a['slug']}.html">
       <div class="article-card-img-wrap">
-        {f'<img class="article-card-img" src="{img}" alt="{escape(a["title"])}" loading="lazy">' if img else '<div class="article-card-img article-card-noimg"></div>'}
+        {img_tag}
         <span class="article-cat {cat_class}">{escape(cat_label)}</span>
       </div>
       <div class="article-card-body">
