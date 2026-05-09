@@ -220,6 +220,7 @@ def render_index() -> str:
         canonical_path=canonical_path,
         json_ld=json_ld,
         extra_css="assets/common.css",
+        og_image=f"{T.SITE_URL}/assets/hero.jpg",
     )
 
     # 9セクション構成（card-affiliate参考の縦長解消版）
@@ -264,11 +265,14 @@ def _render_hero() -> str:
         f'<span class="logo-chip">{v.get("icon","")}<span>{escape(v["name"])}</span></span>'
         for v in VODS
     )
-    return f"""<section class="hero hero-xl">
-  <div class="hero-inner">
-    <span class="hero-badge">📘 国内主要10社の実契約レビュー</span>
-    <h1>あなたに最適なサブスクが<br><span class="hero-h1-em">3問でわかる</span><br>VOD図鑑</h1>
-    <p class="hero-sub">月額・作品数・無料体験を実視聴ベースで整理。<br>編集部が10サービスから1本を提案します。</p>
+    # ヒーロー画像（assets/hero.jpg・1024x572 16:9）にブランドメッセージを内包
+    return f"""<section class="hero hero-with-image">
+  <div class="hero-image-banner">
+    <img src="assets/hero.jpg" alt="サブスク図鑑 - 定額制サービスを徹底解説！あなたにぴったりのサブスクが見つかる" width="1024" height="572" class="hero-image" fetchpriority="high">
+  </div>
+  <div class="hero-content">
+    <h1 class="visually-hidden">サブスク図鑑｜定額制サービス比較・診断メディア</h1>
+    <p class="hero-tagline">月額・作品数・無料体験を実視聴ベースで整理。<br>3問の診断クイズで、編集部が最適な1本を提案します。</p>
     <div class="hero-stats">
       <div><strong>{len(VODS)}</strong><span>サービス比較</span></div>
       <div><strong>{len(ARTICLES)}</strong><span>解説記事</span></div>
