@@ -1211,12 +1211,18 @@ def render_about() -> str:
         canonical_path=canonical_path,
         json_ld=json_ld,
         extra_css="assets/common.css",
+        og_image=f"{T.SITE_URL}/assets/hero.jpg",
     )
 
     breadcrumb_html = T.breadcrumb([
         ("トップ", "index.html"),
         ("当サイトについて", ""),
     ])
+
+    # About ページ用ヒーロー画像バナー（H1 の前に挿入）
+    about_hero_html = """<div class="about-hero">
+    <img src="assets/hero.jpg" alt="サブスク図鑑 - 定額制サービスを徹底解説！あなたにぴったりのサブスクが見つかる" width="1024" height="572" class="about-hero-image" fetchpriority="high">
+  </div>"""
 
     # 編集メンバー
     members_html = ""
@@ -1238,6 +1244,7 @@ def render_about() -> str:
 {T.pr_disclosure()}
 <main class="container">
   {breadcrumb_html}
+  {about_hero_html}
   <article class="article-content about-page">
     <span class="article-cat">サイト情報</span>
     <h1>📘 サブスク図鑑について</h1>

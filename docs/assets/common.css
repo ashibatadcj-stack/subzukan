@@ -1252,6 +1252,24 @@ img { max-width: 100%; height: auto; }
   .hero-with-image .hero-stats strong { font-size: 1.2rem; }
   .hero-with-image .hero-cta { font-size: 1rem; padding: 14px 28px; }
 }
+
+/* ===== About page hero (画像のみ表示の軽量バリエーション) ===== */
+.about-hero {
+  max-width: 1024px;
+  margin: 16px auto 24px;
+  padding: 0 4px;
+}
+.about-hero-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.12);
+}
+@media (max-width: 700px) {
+  .about-hero { margin: 8px auto 18px; }
+  .about-hero-image { border-radius: 12px; }
+}
 .hero-xl::before {
   content: '';
   position: absolute;
