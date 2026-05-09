@@ -459,21 +459,42 @@ def json_ld_howto_cancel(vod: dict, url: str) -> dict:
 
 
 def json_ld_product(vod: dict, url: str) -> dict:
-    """個別VODページ用の Product/SoftwareApplication 型JSON-LD"""
+    """個別VODページ用の SoftwareApplication 型JSON-LD
+
+    旧 Product 型から変更（GSCで物販EC前提のフィールド警告が出るため）：
+    - VOD/サブスクは物販ではなくストリーミングアプリ／SaaSのため SoftwareApplication が意味的に正確
+    - shippingDetails / hasMerchantReturnPolicy（物販前提）の警告が消える
+    - image 必須項目を複数アスペクト比で提供（重大エラー解消）
+    - offers.availability を明示（軽微警告解消）
+    - aggregateRating（星評価）は SoftwareApplication 型でも有効
+    """
     scores = vod.get("recommend_score", {})
     avg = sum(scores.values()) / len(scores) if scores else 0
+    price = "".join(c for c in str(vod["monthly_fee"]) if c.isdigit()) or "0"
+
+    # 画像URLs（Googleが推奨する複数アスペクト比を1:1, 4:3, 16:9 で提供）
+    base_img = "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85"
+    images = [
+        f"{base_img}?w=800&h=800&fit=crop&q=70",     # 1:1 square
+        f"{base_img}?w=1200&h=900&fit=crop&q=70",    # 4:3 standard
+        f"{base_img}?w=1200&h=630&fit=crop&q=70",    # 16:9 wide
+    ]
+
     return {
         "@context": "https://schema.org",
-        "@type": "Product",
+        "@type": "SoftwareApplication",
         "name": vod["name"],
         "description": vod.get("tagline", ""),
         "url": url,
-        "brand": {"@type": "Brand", "name": vod["name"]},
+        "image": images,
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "iOS, Android, Web, Smart TV (Fire TV / Apple TV / Chromecast)",
         "offers": {
             "@type": "Offer",
-            "price": "".join(c for c in str(vod["monthly_fee"]) if c.isdigit()) or "0",
+            "price": price,
             "priceCurrency": "JPY",
             "url": vod.get("official_url", url),
+            "availability": "https://schema.org/InStock",
         },
         "aggregateRating": {
             "@type": "AggregateRating",
